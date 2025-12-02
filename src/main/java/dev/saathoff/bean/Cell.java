@@ -5,17 +5,7 @@ public class Cell {
 
     private GameOfLifeCellState cellState;
 
-    private String displayValue;
-
     private Cell[][] neighbors;
-
-    public String getDisplayValue() {
-        return displayValue;
-    }
-
-    public void setDisplayValue(String displayValue) {
-        this.displayValue = displayValue;
-    }
 
     public Cell[][] getNeighbors() {
         return neighbors;
