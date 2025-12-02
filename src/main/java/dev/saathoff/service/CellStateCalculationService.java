@@ -1,18 +1,18 @@
 package dev.saathoff.service;
 
 import dev.saathoff.bean.Cell;
-import dev.saathoff.bean.MinesweeperCellState;
+import dev.saathoff.bean.GameOfLifeCellState;
 
 public class CellStateCalculationService {
 
     public Cell calculateCellState(Cell cell) {
         Cell nextGenCell = this.copyCell(cell);
         int aliveNeighbors = this.countAliveNeighbors(cell.getNeighbors());
-        if(cell.getCellState() == MinesweeperCellState.ALIVE && (aliveNeighbors < 2 || aliveNeighbors > 3)){
-                nextGenCell.setCellState(MinesweeperCellState.DEAD);
+        if(cell.getCellState() == GameOfLifeCellState.ALIVE && (aliveNeighbors < 2 || aliveNeighbors > 3)){
+                nextGenCell.setCellState(GameOfLifeCellState.DEAD);
         }
-        if(cell.getCellState() == MinesweeperCellState.DEAD && aliveNeighbors == 3){
-            nextGenCell.setCellState(MinesweeperCellState.ALIVE);
+        if(cell.getCellState() == GameOfLifeCellState.DEAD && aliveNeighbors == 3){
+            nextGenCell.setCellState(GameOfLifeCellState.ALIVE);
         }
         return nextGenCell;
     }
@@ -28,7 +28,7 @@ public class CellStateCalculationService {
         int aliveNeighbors = 0;
         for (Cell[] row : neighbors){
             for (Cell cell : row){
-                if(cell != null && cell.getCellState() == MinesweeperCellState.ALIVE){
+                if(cell != null && cell.getCellState() == GameOfLifeCellState.ALIVE){
                     aliveNeighbors ++;
                 }
             }

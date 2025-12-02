@@ -2,7 +2,7 @@ package dev.saathoff.service;
 
 import dev.saathoff.bean.Cell;
 import dev.saathoff.bean.Grid;
-import dev.saathoff.bean.MinesweeperCellState;
+import dev.saathoff.bean.GameOfLifeCellState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ public class GridService {
             grid.getGrid().add(new ArrayList<>());
             for(int j = 0; j < columns; j++){
                 Cell cell = new Cell();
-                cell.setCellState(MinesweeperCellState.DEAD);
+                cell.setCellState(GameOfLifeCellState.DEAD);
                 grid.getGrid().get(i).add(cell);
             }
         }

@@ -1,11 +1,9 @@
 package dev.saathoff.bean;
 
-import java.util.List;
-
 public class Cell {
 
 
-    private MinesweeperCellState cellState;
+    private GameOfLifeCellState cellState;
 
     private String displayValue;
 
@@ -27,11 +25,11 @@ public class Cell {
         this.neighbors = neighbors;
     }
 
-    public MinesweeperCellState getCellState() {
+    public GameOfLifeCellState getCellState() {
         return cellState;
     }
 
-    public void setCellState(MinesweeperCellState cellState) {
+    public void setCellState(GameOfLifeCellState cellState) {
         this.cellState = cellState;
     }
 }

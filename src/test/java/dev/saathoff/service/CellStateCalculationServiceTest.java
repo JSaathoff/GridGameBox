@@ -1,7 +1,7 @@
 package dev.saathoff.service;
 
 import dev.saathoff.bean.Cell;
-import dev.saathoff.bean.MinesweeperCellState;
+import dev.saathoff.bean.GameOfLifeCellState;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -18,26 +18,26 @@ public class CellStateCalculationServiceTest {
     public static Stream<Arguments> testData() {
         return Stream.of(
                 // ALIVE cell scenarios:
-                Arguments.of(0, MinesweeperCellState.ALIVE, MinesweeperCellState.DEAD), // Rule 1: Underpopulation (< 2)
-                Arguments.of(1, MinesweeperCellState.ALIVE, MinesweeperCellState.DEAD), // Rule 1: Underpopulation (< 2)
-                Arguments.of(2, MinesweeperCellState.ALIVE, MinesweeperCellState.ALIVE), // Rule 2: Survival (= 2)
-                Arguments.of(3, MinesweeperCellState.ALIVE, MinesweeperCellState.ALIVE), // Rule 2: Survival (= 3)
-                Arguments.of(4, MinesweeperCellState.ALIVE, MinesweeperCellState.DEAD), // Rule 1: Overpopulation (> 3)
-                Arguments.of(5, MinesweeperCellState.ALIVE, MinesweeperCellState.DEAD), // Rule 1: Overpopulation (> 3)
-                Arguments.of(6, MinesweeperCellState.ALIVE, MinesweeperCellState.DEAD), // Rule 1: Overpopulation (> 3)
-                Arguments.of(7, MinesweeperCellState.ALIVE, MinesweeperCellState.DEAD), // Rule 1: Overpopulation (> 3)
-                Arguments.of(8, MinesweeperCellState.ALIVE, MinesweeperCellState.DEAD), // Rule 1: Overpopulation (> 3)
+                Arguments.of(0, GameOfLifeCellState.ALIVE, GameOfLifeCellState.DEAD), // Rule 1: Underpopulation (< 2)
+                Arguments.of(1, GameOfLifeCellState.ALIVE, GameOfLifeCellState.DEAD), // Rule 1: Underpopulation (< 2)
+                Arguments.of(2, GameOfLifeCellState.ALIVE, GameOfLifeCellState.ALIVE), // Rule 2: Survival (= 2)
+                Arguments.of(3, GameOfLifeCellState.ALIVE, GameOfLifeCellState.ALIVE), // Rule 2: Survival (= 3)
+                Arguments.of(4, GameOfLifeCellState.ALIVE, GameOfLifeCellState.DEAD), // Rule 1: Overpopulation (> 3)
+                Arguments.of(5, GameOfLifeCellState.ALIVE, GameOfLifeCellState.DEAD), // Rule 1: Overpopulation (> 3)
+                Arguments.of(6, GameOfLifeCellState.ALIVE, GameOfLifeCellState.DEAD), // Rule 1: Overpopulation (> 3)
+                Arguments.of(7, GameOfLifeCellState.ALIVE, GameOfLifeCellState.DEAD), // Rule 1: Overpopulation (> 3)
+                Arguments.of(8, GameOfLifeCellState.ALIVE, GameOfLifeCellState.DEAD), // Rule 1: Overpopulation (> 3)
 
                 // DEAD cell scenarios:
-                Arguments.of(0, MinesweeperCellState.DEAD, MinesweeperCellState.DEAD), // Rule 4: Stasis (Neighbors != 3)
-                Arguments.of(1, MinesweeperCellState.DEAD, MinesweeperCellState.DEAD), // Rule 4: Stasis (Neighbors != 3)
-                Arguments.of(2, MinesweeperCellState.DEAD, MinesweeperCellState.DEAD), // Rule 4: Stasis (Neighbors != 3)
-                Arguments.of(3, MinesweeperCellState.DEAD, MinesweeperCellState.ALIVE), // Rule 3: Reproduction (= 3)
-                Arguments.of(4, MinesweeperCellState.DEAD, MinesweeperCellState.DEAD), // Rule 4: Stasis (Neighbors != 3)
-                Arguments.of(5, MinesweeperCellState.DEAD, MinesweeperCellState.DEAD), // Rule 4: Stasis (Neighbors != 3)
-                Arguments.of(6, MinesweeperCellState.DEAD, MinesweeperCellState.DEAD), // Rule 4: Stasis (Neighbors != 3)
-                Arguments.of(7, MinesweeperCellState.DEAD, MinesweeperCellState.DEAD), // Rule 4: Stasis (Neighbors != 3)
-                Arguments.of(8, MinesweeperCellState.DEAD, MinesweeperCellState.DEAD)  // Rule 4: Stasis (Neighbors != 3)
+                Arguments.of(0, GameOfLifeCellState.DEAD, GameOfLifeCellState.DEAD), // Rule 4: Stasis (Neighbors != 3)
+                Arguments.of(1, GameOfLifeCellState.DEAD, GameOfLifeCellState.DEAD), // Rule 4: Stasis (Neighbors != 3)
+                Arguments.of(2, GameOfLifeCellState.DEAD, GameOfLifeCellState.DEAD), // Rule 4: Stasis (Neighbors != 3)
+                Arguments.of(3, GameOfLifeCellState.DEAD, GameOfLifeCellState.ALIVE), // Rule 3: Reproduction (= 3)
+                Arguments.of(4, GameOfLifeCellState.DEAD, GameOfLifeCellState.DEAD), // Rule 4: Stasis (Neighbors != 3)
+                Arguments.of(5, GameOfLifeCellState.DEAD, GameOfLifeCellState.DEAD), // Rule 4: Stasis (Neighbors != 3)
+                Arguments.of(6, GameOfLifeCellState.DEAD, GameOfLifeCellState.DEAD), // Rule 4: Stasis (Neighbors != 3)
+                Arguments.of(7, GameOfLifeCellState.DEAD, GameOfLifeCellState.DEAD), // Rule 4: Stasis (Neighbors != 3)
+                Arguments.of(8, GameOfLifeCellState.DEAD, GameOfLifeCellState.DEAD)  // Rule 4: Stasis (Neighbors != 3)
         );
     }
 
@@ -48,13 +48,13 @@ public class CellStateCalculationServiceTest {
         for(int i = 0; i < fullRowsNeeded; i++){
             for(int j = 0; j < 3; j++){
                 Cell neighbor = new Cell();
-                neighbor.setCellState(MinesweeperCellState.ALIVE);
+                neighbor.setCellState(GameOfLifeCellState.ALIVE);
                 neighbors[i][j] = neighbor;
             }
         }
         for(int i = 0; i < lastRowNeeded; i++){
             Cell neighbor = new Cell();
-            neighbor.setCellState(MinesweeperCellState.ALIVE);
+            neighbor.setCellState(GameOfLifeCellState.ALIVE);
             neighbors[2][i] = neighbor;
         }
         return neighbors;
@@ -64,8 +64,8 @@ public class CellStateCalculationServiceTest {
     @MethodSource("testData")
     @DisplayName("GOL Rule Evaluation Test")
     public void testCellStateCalculation(int aliveNeighbors,
-                     MinesweeperCellState cellStateBefore,
-                     MinesweeperCellState expectedCellStateAfter){
+                     GameOfLifeCellState cellStateBefore,
+                     GameOfLifeCellState expectedCellStateAfter){
         //GIVEN
         Cell cell = new Cell();
         cell.setNeighbors(createNeighbors(aliveNeighbors));

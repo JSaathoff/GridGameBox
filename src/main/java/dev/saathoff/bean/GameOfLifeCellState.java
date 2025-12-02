@@ -1,12 +1,12 @@
 package dev.saathoff.bean;
 
-public enum MinesweeperCellState {
+public enum GameOfLifeCellState {
     ALIVE("X"),
     DEAD("0");
 
     private final String displayValue;
 
-    MinesweeperCellState(String displayValue) {
+    GameOfLifeCellState(String displayValue) {
         this.displayValue = displayValue;
     }
 
