@@ -7,6 +7,7 @@ import dev.saathoff.service.grid.impl.GOLGridService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
@@ -16,32 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class GOLCellStateCalculationServiceTest {
 
     CellStateCalculationService service = new CellStateCalculationService();
-
-    public static Stream<Arguments> testData() {
-        return Stream.of(
-                // ALIVE cell scenarios:
-                Arguments.of(0, true, false), // Rule 1: Underpopulation (< 2)
-                Arguments.of(1, true, false), // Rule 1: Underpopulation (< 2)
-                Arguments.of(2, true, true),  // Rule 2: Survival (= 2)
-                Arguments.of(3, true, true),  // Rule 2: Survival (= 3)
-                Arguments.of(4, true, false), // Rule 1: Overpopulation (> 3)
-                Arguments.of(5, true, false), // Rule 1: Overpopulation (> 3)
-                Arguments.of(6, true, false), // Rule 1: Overpopulation (> 3)
-                Arguments.of(7, true, false), // Rule 1: Overpopulation (> 3)
-                Arguments.of(8, true, false), // Rule 1: Overpopulation (> 3)
-
-                // DEAD cell scenarios:
-                Arguments.of(0, false, false), // Rule 4: Stasis (Neighbors != 3)
-                Arguments.of(1, false, false), // Rule 4: Stasis (Neighbors != 3)
-                Arguments.of(2, false, false), // Rule 4: Stasis (Neighbors != 3)
-                Arguments.of(3, false, true),  // Rule 3: Reproduction (= 3)
-                Arguments.of(4, false, false), // Rule 4: Stasis (Neighbors != 3)
-                Arguments.of(5, false, false), // Rule 4: Stasis (Neighbors != 3)
-                Arguments.of(6, false, false), // Rule 4: Stasis (Neighbors != 3)
-                Arguments.of(7, false, false), // Rule 4: Stasis (Neighbors != 3)
-                Arguments.of(8, false, false)  // Rule 4: Stasis (Neighbors != 3)
-        );
-    }
 
     private Grid<GOLCell> createGrid(int aliveNeighbors, boolean initialCellState) {
 
@@ -69,17 +44,38 @@ public class GOLCellStateCalculationServiceTest {
     }
 
     @ParameterizedTest(name = "Neighbors={0}, Start={1} -> End={2}")
-    @MethodSource("testData")
+    @CsvSource({
+            // Neighbors, isAlive, expectedNextState
+            "0, true,  false", // Underpopulation
+            "1, true,  false", // Underpopulation
+            "2, true,  true",  // Survival
+            "3, true,  true",  // Survival
+            "4, true,  false", // Overpopulation
+            "5, true,  false", // Overpopulation
+            "6, true,  false", // Overpopulation
+            "7, true,  false", // Overpopulation
+            "8, true,  false", // Overpopulation
+
+            "0, false, false", // Stasis
+            "1, false, false", // Stasis
+            "2, false, false", // Stasis
+            "3, false, true",  // Reproduction
+            "4, false, false", // Stasis
+            "5, false, false", // Stasis
+            "6, false, false", // Stasis
+            "7, false, false", // Stasis
+            "8, false, false"  // Stasis
+    })
     @DisplayName("GOL Rule Evaluation Test")
     public void testCellStateCalculation(int aliveNeighbors,
                      boolean cellStateBefore,
                      boolean expectedCellStateAfter){
-        //GIVEN
+        // GIVEN
         Grid<GOLCell> grid = createGrid(aliveNeighbors, cellStateBefore);
         this.service.setDetermineNeighborsService(new DetermineNeighborsService());
-        //WHEN
+        // WHEN
         GOLCell nextGenCell = this.service.calculateCellState(grid, 1, 1);
-        //THEN
+        // THEN
         assertEquals(expectedCellStateAfter, nextGenCell.isAlive(),
                 String.format("Expected state %s with %d alive neighbors starting from %s",
                         expectedCellStateAfter, aliveNeighbors, cellStateBefore));

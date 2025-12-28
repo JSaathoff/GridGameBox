@@ -1,6 +1,5 @@
 package dev.saathoff.service.grid.impl;
 
-import dev.saathoff.bean.GOLCell;
 import dev.saathoff.bean.Grid;
 import dev.saathoff.service.grid.dto.Coordinates;
 
