@@ -14,13 +14,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DetermineNeighborsServiceTest {
-    private DetermineNeighborsService service;
 
-    @BeforeEach
-    void setUp() {
-        // This runs before every @Test method
-        service = new DetermineNeighborsService();
-    }
+    private DetermineNeighborsService service = new DetermineNeighborsService();
+
     @ParameterizedTest
     @CsvSource({
             "0, 0, 3", // Top-left corner should have 3 neighbors

@@ -4,7 +4,7 @@ public class MSCell {
     private boolean isMine;
     private boolean isFlagged;
     private boolean isRevealed;
-    private int bombCount;
+    private long mineCount;
 
     public boolean isMine() {
         return isMine;
@@ -30,11 +30,11 @@ public class MSCell {
         isRevealed = revealed;
     }
 
-    public int getBombCount() {
-        return bombCount;
+    public long getMineCount() {
+        return mineCount;
     }
 
-    public void setBombCount(int bombCount) {
-        this.bombCount = bombCount;
+    public void setMineCount(long mineCount) {
+        this.mineCount = mineCount;
     }
 }
