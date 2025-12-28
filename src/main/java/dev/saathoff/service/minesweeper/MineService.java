@@ -2,6 +2,7 @@ package dev.saathoff.service.minesweeper;
 
 import dev.saathoff.bean.Grid;
 import dev.saathoff.bean.MSCell;
+import dev.saathoff.service.grid.dto.Coordinates;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,19 +12,20 @@ import java.util.random.RandomGenerator;
 
 public class MineService {
 
+
     public Grid<MSCell> placeMines(Grid<MSCell> grid, int bombCount, int clickedRow, int clickedColumn, RandomGenerator random){
         int rows = grid.getRowCount();
         int cols = grid.getColumnCount();
 
-        List<Integer> indices = this.getFlatIndicesOfPossibleMineSpots(rows, cols, clickedRow, clickedColumn);
+        List<Coordinates> availableMineSpots = this.getAvailableMineSpots(rows, cols, clickedRow, clickedColumn);
 
-        Collections.shuffle(indices, (Random) random);
+        Collections.shuffle(availableMineSpots, (Random) random);
 
         for (int i = 0; i < bombCount; i++) {
-            int flatIndex = indices.get(i);
+            Coordinates spot = availableMineSpots.get(i);
 
-            int row = flatIndex / cols;
-            int col = flatIndex % cols;
+            int row = spot.row();
+            int col = spot.column();
 
             MSCell cell = grid.getCell(row, col);
             cell.setMine(true);
@@ -32,20 +34,16 @@ public class MineService {
         return grid;
     }
 
-    private List<Integer> getFlatIndicesOfPossibleMineSpots(int rows, int cols, int clickedRow, int clickedColumn) {
-        List<Integer> indices = new ArrayList<>();
-
-        for (int i = 0; i < rows * cols; i++) {
-            int r = i / cols;
-            int c = i % cols;
-            // Skip clicked cell and direct neighbors
-            if (Math.abs(r - clickedRow) <= 1 && Math.abs(c - clickedColumn) <= 1) {
-                continue;
+    private List<Coordinates> getAvailableMineSpots(int rows, int cols, int clickedRow, int clickedColumn) {
+        List<Coordinates> availableMineSpots = new ArrayList<>();
+        for(int row = 0; row < rows; row++){
+            for(int col = 0; col < cols; col++){
+                boolean isSafeZone = Math.abs(row - clickedRow) <= 1 && Math.abs(col - clickedColumn) <= 1;
+                if(!isSafeZone){
+                    availableMineSpots.add(new Coordinates(row, col));
+                }
             }
-            indices.add(i);
         }
-        return indices;
+        return availableMineSpots;
     }
-
-
 }
