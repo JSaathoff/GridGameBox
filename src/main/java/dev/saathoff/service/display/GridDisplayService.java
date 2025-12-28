@@ -2,6 +2,6 @@ package dev.saathoff.service.display;
 
 import dev.saathoff.bean.Grid;
 
-public interface GridDisplayService {
-    String displayGridState(Grid grid);
+public interface GridDisplayService<T> {
+    String displayGridState(Grid<T> grid);
 }

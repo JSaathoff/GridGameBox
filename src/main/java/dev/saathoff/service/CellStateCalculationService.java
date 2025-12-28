@@ -1,42 +1,35 @@
 package dev.saathoff.service;
 
-import dev.saathoff.bean.Cell;
+import dev.saathoff.bean.GOLCell;
 import dev.saathoff.bean.Grid;
+import dev.saathoff.service.grid.dto.Coordinates;
+import dev.saathoff.service.grid.impl.DetermineNeighborsService;
+
+import java.util.List;
 
 public class CellStateCalculationService {
 
-    private int countAliveNeighbors(Grid grid, int row, int column) {
+    private DetermineNeighborsService determineNeighborsService;
+
+    private int countAliveNeighbors(Grid<GOLCell> grid, int row, int column) {
 
         int aliveNeighbors = 0;
 
-        for (int deltaRow = -1; deltaRow <= 1; deltaRow++) {
-            for (int deltaCol = -1; deltaCol <= 1; deltaCol++) {
+        List<Coordinates> neighborCoordinates = this.determineNeighborsService.determineNeighborCoordinates(grid, row, column);
 
-                if (deltaRow == 0 && deltaCol == 0) {
-                    continue;
-                }
-
-                int neighborRow = row + deltaRow;
-                int neighborCol = column + deltaCol;
-
-                boolean isWithinBounds =
-                        neighborRow >= 0 && neighborRow < grid.getRowCount() &&
-                                neighborCol >= 0 && neighborCol < grid.getColumnCount();
-
-                if (isWithinBounds) {
-                    Cell neighborCell = grid.getGrid().get(neighborRow).get(neighborCol);
-                    if(neighborCell.isAlive()){
-                        aliveNeighbors++;
-                    }
-                }
+        for(Coordinates cord : neighborCoordinates){
+            GOLCell neighborCell = grid.getCell(cord);
+            if(neighborCell.isAlive()){
+                aliveNeighbors++;
             }
         }
 
         return aliveNeighbors;
     }
-    public Cell calculateCellState(Grid grid, int row, int column) {
-        Cell cell = grid.getGrid().get(row).get(column);
-        Cell nextGenCell = this.copyCell(cell);
+
+    public GOLCell calculateCellState(Grid<GOLCell> grid, int row, int column) {
+        GOLCell cell = grid.getCell(row, column);
+        GOLCell nextGenCell = this.copyCell(cell);
         int aliveNeighbors = this.countAliveNeighbors(grid, row, column);
         if(cell.isAlive() && (aliveNeighbors < 2 || aliveNeighbors > 3)){
                 nextGenCell.setAlive(false);
@@ -47,9 +40,17 @@ public class CellStateCalculationService {
         return nextGenCell;
     }
 
-    private Cell copyCell(Cell cell) {
-        Cell nextGenCell = new Cell();
+    private GOLCell copyCell(GOLCell cell) {
+        GOLCell nextGenCell = new GOLCell();
         nextGenCell.setAlive(cell.isAlive());
         return nextGenCell;
+    }
+
+    public DetermineNeighborsService getDetermineNeighborsService() {
+        return determineNeighborsService;
+    }
+
+    public void setDetermineNeighborsService(DetermineNeighborsService determineNeighborsService) {
+        this.determineNeighborsService = determineNeighborsService;
     }
 }

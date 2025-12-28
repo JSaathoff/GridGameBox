@@ -1,36 +1,16 @@
 package dev.saathoff.bean;
 
-import java.util.List;
+import dev.saathoff.service.grid.dto.Coordinates;
 
-public class Grid {
+public interface Grid<T> {
+    void setCell(int row, int column, T cell);
 
-    private List<List<Cell>> grid;
+    T getCell(int row, int column);
 
-    private int rowCount;
+    T getCell(Coordinates cord);
 
-    private int columnCount;
+    int getRowCount();
 
-    public List<List<Cell>> getGrid() {
-        return grid;
-    }
+    int getColumnCount();
 
-    public void setGrid(List<List<Cell>> grid) {
-        this.grid = grid;
-    }
-
-    public int getColumnCount() {
-        return columnCount;
-    }
-
-    public void setColumnCount(int columnCount) {
-        this.columnCount = columnCount;
-    }
-
-    public int getRowCount() {
-        return rowCount;
-    }
-
-    public void setRowCount(int rowCount) {
-        this.rowCount = rowCount;
-    }
 }

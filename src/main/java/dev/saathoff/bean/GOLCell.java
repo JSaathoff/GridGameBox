@@ -1,6 +1,6 @@
 package dev.saathoff.bean;
 
-public class Cell {
+public class GOLCell {
 
     private boolean isAlive;
 
