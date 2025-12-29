@@ -1,6 +1,4 @@
-package dev.saathoff.bean;
-
-import dev.saathoff.service.grid.dto.Coordinates;
+package dev.saathoff.grid.bean;
 
 public class ArrayGrid<T> implements Grid<T> {
 

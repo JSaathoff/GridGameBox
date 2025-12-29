@@ -1,4 +1,4 @@
-package dev.saathoff.bean;
+package dev.saathoff.gameoflife.bean;
 
 public class GOLCell {
 

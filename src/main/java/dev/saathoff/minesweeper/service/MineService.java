@@ -1,8 +1,8 @@
-package dev.saathoff.service.minesweeper;
+package dev.saathoff.minesweeper.service;
 
-import dev.saathoff.bean.Grid;
-import dev.saathoff.bean.MSCell;
-import dev.saathoff.service.grid.dto.Coordinates;
+import dev.saathoff.grid.bean.Grid;
+import dev.saathoff.minesweeper.bean.MSCell;
+import dev.saathoff.grid.bean.Coordinates;
 
 import java.util.ArrayList;
 import java.util.Collections;

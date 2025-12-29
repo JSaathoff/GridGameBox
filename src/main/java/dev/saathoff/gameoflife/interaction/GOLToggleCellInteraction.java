@@ -1,8 +1,8 @@
-package dev.saathoff.service.interaction.impl;
+package dev.saathoff.gameoflife.interaction;
 
-import dev.saathoff.bean.GOLCell;
-import dev.saathoff.bean.Grid;
-import dev.saathoff.service.interaction.CellInteraction;
+import dev.saathoff.gameoflife.bean.GOLCell;
+import dev.saathoff.grid.bean.Grid;
+import dev.saathoff.grid.interaction.CellInteraction;
 
 public class GOLToggleCellInteraction implements CellInteraction<GOLCell> {
     @Override

@@ -1,16 +1,13 @@
 package dev.saathoff.service;
 
-import dev.saathoff.bean.GOLCell;
-import dev.saathoff.bean.Grid;
-import dev.saathoff.service.grid.impl.DetermineNeighborsService;
-import dev.saathoff.service.grid.impl.GOLGridService;
+import dev.saathoff.gameoflife.bean.GOLCell;
+import dev.saathoff.gameoflife.service.CellStateCalculationService;
+import dev.saathoff.grid.bean.Grid;
+import dev.saathoff.grid.service.DetermineNeighborsService;
+import dev.saathoff.gameoflife.service.GOLAbstractGridService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -20,7 +17,7 @@ public class GOLCellStateCalculationServiceTest {
 
     private Grid<GOLCell> createGrid(int aliveNeighbors, boolean initialCellState) {
 
-        GOLGridService gridService = new GOLGridService(new CellStateCalculationService());
+        GOLAbstractGridService gridService = new GOLAbstractGridService(new CellStateCalculationService());
         Grid<GOLCell> grid = gridService.generateNewGrid(3,3);
 
         GOLCell cell = new GOLCell();

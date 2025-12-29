@@ -1,14 +1,13 @@
-package dev.saathoff.service.grid.impl;
+package dev.saathoff.gameoflife.service;
 
-import dev.saathoff.bean.GOLCell;
-import dev.saathoff.bean.Grid;
-import dev.saathoff.service.CellStateCalculationService;
-import dev.saathoff.service.grid.GridService;
+import dev.saathoff.gameoflife.bean.GOLCell;
+import dev.saathoff.grid.bean.Grid;
+import dev.saathoff.grid.service.AbstractGridService;
 
 
-public class GOLGridService extends GridService<GOLCell> {
+public class GOLAbstractGridService extends AbstractGridService<GOLCell> {
 
-    public GOLGridService(CellStateCalculationService service) {
+    public GOLAbstractGridService(CellStateCalculationService service) {
         this.service = service;
     }
 

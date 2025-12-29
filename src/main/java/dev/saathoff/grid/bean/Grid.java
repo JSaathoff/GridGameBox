@@ -1,6 +1,4 @@
-package dev.saathoff.bean;
-
-import dev.saathoff.service.grid.dto.Coordinates;
+package dev.saathoff.grid.bean;
 
 public interface Grid<T> {
     void setCell(int row, int column, T cell);

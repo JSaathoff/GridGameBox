@@ -1,9 +1,9 @@
-package dev.saathoff.service;
+package dev.saathoff.gameoflife.service;
 
-import dev.saathoff.bean.GOLCell;
-import dev.saathoff.bean.Grid;
-import dev.saathoff.service.grid.dto.Coordinates;
-import dev.saathoff.service.grid.impl.DetermineNeighborsService;
+import dev.saathoff.gameoflife.bean.GOLCell;
+import dev.saathoff.grid.bean.Grid;
+import dev.saathoff.grid.bean.Coordinates;
+import dev.saathoff.grid.service.DetermineNeighborsService;
 
 import java.util.List;
 

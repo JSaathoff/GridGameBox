@@ -1,8 +1,9 @@
 package dev.saathoff.service.minesweeper;
 
-import dev.saathoff.bean.Grid;
-import dev.saathoff.bean.MSCell;
-import dev.saathoff.service.grid.impl.MSGridService;
+import dev.saathoff.grid.bean.Grid;
+import dev.saathoff.minesweeper.bean.MSCell;
+import dev.saathoff.minesweeper.service.MSGridService;
+import dev.saathoff.minesweeper.service.MineService;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;

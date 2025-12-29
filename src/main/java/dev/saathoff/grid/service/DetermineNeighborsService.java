@@ -1,7 +1,7 @@
-package dev.saathoff.service.grid.impl;
+package dev.saathoff.grid.service;
 
-import dev.saathoff.bean.Grid;
-import dev.saathoff.service.grid.dto.Coordinates;
+import dev.saathoff.grid.bean.Grid;
+import dev.saathoff.grid.bean.Coordinates;
 
 import java.util.ArrayList;
 import java.util.List;

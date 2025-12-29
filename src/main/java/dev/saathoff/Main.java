@@ -1,18 +1,18 @@
 package dev.saathoff;
 
-import dev.saathoff.bean.GOLCell;
-import dev.saathoff.bean.Grid;
-import dev.saathoff.service.CellStateCalculationService;
-import dev.saathoff.service.grid.impl.GOLGridService;
-import dev.saathoff.service.display.GridDisplayService;
-import dev.saathoff.service.display.impl.GOLDisplayService;
-import dev.saathoff.service.interaction.CellInteraction;
-import dev.saathoff.service.interaction.impl.GOLToggleCellInteraction;
+import dev.saathoff.gameoflife.bean.GOLCell;
+import dev.saathoff.grid.bean.Grid;
+import dev.saathoff.gameoflife.service.CellStateCalculationService;
+import dev.saathoff.gameoflife.service.GOLAbstractGridService;
+import dev.saathoff.grid.display.GridDisplayService;
+import dev.saathoff.gameoflife.display.GOLDisplayService;
+import dev.saathoff.grid.interaction.CellInteraction;
+import dev.saathoff.gameoflife.interaction.GOLToggleCellInteraction;
 
 public class Main {
     public static void main(String[] args) {
 
-        GOLGridService gridService = new GOLGridService(new CellStateCalculationService());
+        GOLAbstractGridService gridService = new GOLAbstractGridService(new CellStateCalculationService());
         GridDisplayService displayService = new GOLDisplayService();
         CellInteraction toggleCellInteraction = new GOLToggleCellInteraction();
 

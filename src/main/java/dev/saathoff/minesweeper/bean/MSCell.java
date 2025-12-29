@@ -1,4 +1,4 @@
-package dev.saathoff.bean;
+package dev.saathoff.minesweeper.bean;
 
 public class MSCell {
     private boolean isMine;

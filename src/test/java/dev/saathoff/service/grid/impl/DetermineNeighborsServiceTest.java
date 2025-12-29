@@ -1,11 +1,9 @@
 package dev.saathoff.service.grid.impl;
 
-import dev.saathoff.bean.ArrayGrid;
-import dev.saathoff.bean.Grid;
-import dev.saathoff.service.grid.GridService;
-import dev.saathoff.service.grid.dto.Coordinates;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import dev.saathoff.grid.bean.ArrayGrid;
+import dev.saathoff.grid.bean.Grid;
+import dev.saathoff.grid.service.DetermineNeighborsService;
+import dev.saathoff.grid.bean.Coordinates;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 

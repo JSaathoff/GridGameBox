@@ -1,10 +1,11 @@
 package dev.saathoff.service.minesweeper;
 
-import dev.saathoff.bean.Grid;
-import dev.saathoff.bean.MSCell;
-import dev.saathoff.service.grid.dto.Coordinates;
-import dev.saathoff.service.grid.impl.DetermineNeighborsService;
-import dev.saathoff.service.grid.impl.MSGridService;
+import dev.saathoff.grid.bean.Grid;
+import dev.saathoff.minesweeper.bean.MSCell;
+import dev.saathoff.grid.bean.Coordinates;
+import dev.saathoff.grid.service.DetermineNeighborsService;
+import dev.saathoff.minesweeper.service.MSGridService;
+import dev.saathoff.minesweeper.service.MineCountCalculator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -26,7 +27,7 @@ class MineCountCalculatorTest {
     private MSGridService gridService = new MSGridService();
 
     @Test
-    void determineMineCountForGrid() {
+    void setMineCountsForGrid() {
         // GIVEN
         Grid<MSCell> grid = this.gridService.generateNewGrid(3, 3);
         MSCell cell = grid.getCell(0, 0);
@@ -47,7 +48,7 @@ class MineCountCalculatorTest {
 
         // WHEN
         MineCountCalculator countCalculator = new MineCountCalculator(mockNeighborsService);
-        countCalculator.determineMineCountForCell(grid, 1,1);
+        countCalculator.setMineCountForCell(grid, 1,1);
         // THEN
         assertEquals(2, grid.getCell(1,1).getMineCount());
 

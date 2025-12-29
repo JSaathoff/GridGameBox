@@ -1,8 +1,8 @@
-package dev.saathoff.service.display.impl;
+package dev.saathoff.gameoflife.display;
 
-import dev.saathoff.bean.GOLCell;
-import dev.saathoff.bean.Grid;
-import dev.saathoff.service.display.GridDisplayService;
+import dev.saathoff.gameoflife.bean.GOLCell;
+import dev.saathoff.grid.bean.Grid;
+import dev.saathoff.grid.display.GridDisplayService;
 
 
 public class GOLDisplayService implements GridDisplayService<GOLCell> {

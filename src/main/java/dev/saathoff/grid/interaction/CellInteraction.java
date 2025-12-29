@@ -1,6 +1,6 @@
-package dev.saathoff.service.interaction;
+package dev.saathoff.grid.interaction;
 
-import dev.saathoff.bean.Grid;
+import dev.saathoff.grid.bean.Grid;
 
 public interface CellInteraction<T> {
      void interact(Grid<T> grid, int row, int column);

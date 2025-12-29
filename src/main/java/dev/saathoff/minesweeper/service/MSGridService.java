@@ -1,10 +1,10 @@
-package dev.saathoff.service.grid.impl;
+package dev.saathoff.minesweeper.service;
 
-import dev.saathoff.bean.Grid;
-import dev.saathoff.bean.MSCell;
-import dev.saathoff.service.grid.GridService;
+import dev.saathoff.grid.bean.Grid;
+import dev.saathoff.minesweeper.bean.MSCell;
+import dev.saathoff.grid.service.AbstractGridService;
 
-public class MSGridService extends GridService<MSCell> {
+public class MSGridService extends AbstractGridService<MSCell> {
 
     @Override
     public MSCell initializeCell() {
