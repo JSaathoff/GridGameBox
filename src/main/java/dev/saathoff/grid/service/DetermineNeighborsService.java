@@ -1,7 +1,7 @@
 package dev.saathoff.grid.service;
 
-import dev.saathoff.grid.bean.Grid;
-import dev.saathoff.grid.bean.Coordinates;
+import dev.saathoff.grid.data.Grid;
+import dev.saathoff.grid.data.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +14,8 @@ public class DetermineNeighborsService {
             { 1, -1}, { 1, 0}, { 1, 1}
     };
 
-    public List<Coordinates> determineNeighborCoordinates(Grid grid, int row, int column) {
-        List<Coordinates> neighborIndices = new ArrayList<>();
+    public List<Coordinate> determineNeighborCoordinates(Grid grid, int row, int column) {
+        List<Coordinate> neighborIndices = new ArrayList<>();
         for (int[] offset : NEIGHBOR_OFFSETS) {
             int neighborRow = row + offset[0];
             int neighborCol = column + offset[1];
@@ -25,7 +25,7 @@ public class DetermineNeighborsService {
                             neighborCol >= 0 && neighborCol < grid.getColumnCount();
 
             if (isWithinBounds) {
-                Coordinates neighborCords = new Coordinates(neighborRow, neighborCol);
+                Coordinate neighborCords = new Coordinate(neighborRow, neighborCol);
                 neighborIndices.add(neighborCords);
             }
         }

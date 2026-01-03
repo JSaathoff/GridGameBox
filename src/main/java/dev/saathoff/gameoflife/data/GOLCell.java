@@ -1,6 +1,8 @@
-package dev.saathoff.gameoflife.bean;
+package dev.saathoff.gameoflife.data;
 
-public class GOLCell {
+import dev.saathoff.game.data.Cell;
+
+public class GOLCell implements Cell {
 
     private boolean isAlive;
 

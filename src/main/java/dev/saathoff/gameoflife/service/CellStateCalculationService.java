@@ -1,8 +1,8 @@
 package dev.saathoff.gameoflife.service;
 
-import dev.saathoff.gameoflife.bean.GOLCell;
-import dev.saathoff.grid.bean.Grid;
-import dev.saathoff.grid.bean.Coordinates;
+import dev.saathoff.gameoflife.data.GOLCell;
+import dev.saathoff.grid.data.Grid;
+import dev.saathoff.grid.data.Coordinate;
 import dev.saathoff.grid.service.DetermineNeighborsService;
 
 import java.util.List;
@@ -15,9 +15,9 @@ public class CellStateCalculationService {
 
         int aliveNeighbors = 0;
 
-        List<Coordinates> neighborCoordinates = this.determineNeighborsService.determineNeighborCoordinates(grid, row, column);
+        List<Coordinate> neighborCoordinates = this.determineNeighborsService.determineNeighborCoordinates(grid, row, column);
 
-        for(Coordinates cord : neighborCoordinates){
+        for(Coordinate cord : neighborCoordinates){
             GOLCell neighborCell = grid.getCell(cord);
             if(neighborCell.isAlive()){
                 aliveNeighbors++;

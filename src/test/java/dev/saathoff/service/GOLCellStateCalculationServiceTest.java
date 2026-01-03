@@ -1,8 +1,8 @@
 package dev.saathoff.service;
 
-import dev.saathoff.gameoflife.bean.GOLCell;
+import dev.saathoff.gameoflife.data.GOLCell;
 import dev.saathoff.gameoflife.service.CellStateCalculationService;
-import dev.saathoff.grid.bean.Grid;
+import dev.saathoff.grid.data.Grid;
 import dev.saathoff.grid.service.DetermineNeighborsService;
 import dev.saathoff.gameoflife.service.GOLAbstractGridService;
 import org.junit.jupiter.api.DisplayName;

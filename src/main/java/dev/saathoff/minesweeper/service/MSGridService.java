@@ -1,6 +1,6 @@
 package dev.saathoff.minesweeper.service;
 
-import dev.saathoff.grid.bean.Grid;
+import dev.saathoff.grid.data.Grid;
 import dev.saathoff.minesweeper.bean.MSCell;
 import dev.saathoff.grid.service.AbstractGridService;
 

@@ -1,12 +1,17 @@
 package dev.saathoff.gameoflife.interaction;
 
-import dev.saathoff.gameoflife.bean.GOLCell;
-import dev.saathoff.grid.bean.Grid;
-import dev.saathoff.grid.interaction.CellInteraction;
+import dev.saathoff.game.data.AbstractGameState;
+import dev.saathoff.gameoflife.data.GOLCell;
+import dev.saathoff.gameoflife.data.GOLMetaData;
+import dev.saathoff.grid.data.Grid;
+import dev.saathoff.game.interaction.CellInteraction;
 
-public class GOLToggleCellInteraction implements CellInteraction<GOLCell> {
+public class GOLToggleCellInteraction implements CellInteraction<GOLCell, GOLMetaData> {
+
+
     @Override
-    public void interact(Grid<GOLCell> grid, int row, int column) {
+    public void interact(AbstractGameState<GOLCell, GOLMetaData> gameState, int row, int column) {
+        Grid<GOLCell> grid = gameState.getGrid();
         GOLCell cell = grid.getCell(row,column);
         cell.setAlive(!cell.isAlive());
     }

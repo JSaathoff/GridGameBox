@@ -1,10 +1,11 @@
 package dev.saathoff.grid.service;
 
-import dev.saathoff.grid.bean.ArrayGrid;
-import dev.saathoff.grid.bean.Grid;
+import dev.saathoff.game.data.Cell;
+import dev.saathoff.grid.data.ArrayGrid;
+import dev.saathoff.grid.data.Grid;
 import dev.saathoff.gameoflife.service.CellStateCalculationService;
 
-public abstract class AbstractGridService<T> {
+public abstract class AbstractGridService<T extends Cell> {
 
     public Grid<T> generateNewGrid(int rows, int columns) {
         Grid<T> grid = new ArrayGrid<>(rows, columns);

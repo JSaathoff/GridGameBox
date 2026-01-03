@@ -1,6 +1,8 @@
 package dev.saathoff.minesweeper.bean;
 
-public class MSCell {
+import dev.saathoff.game.data.Cell;
+
+public class MSCell implements Cell {
     private boolean isMine;
     private boolean isFlagged;
     private boolean isRevealed;

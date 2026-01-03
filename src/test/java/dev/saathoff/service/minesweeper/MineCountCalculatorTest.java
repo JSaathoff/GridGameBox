@@ -1,8 +1,8 @@
 package dev.saathoff.service.minesweeper;
 
-import dev.saathoff.grid.bean.Grid;
+import dev.saathoff.grid.data.Grid;
 import dev.saathoff.minesweeper.bean.MSCell;
-import dev.saathoff.grid.bean.Coordinates;
+import dev.saathoff.grid.data.Coordinate;
 import dev.saathoff.grid.service.DetermineNeighborsService;
 import dev.saathoff.minesweeper.service.MSGridService;
 import dev.saathoff.minesweeper.service.MineCountCalculator;
@@ -34,15 +34,15 @@ class MineCountCalculatorTest {
         cell.setMine(true);
         cell = grid.getCell(1, 0);
         cell.setMine(true);
-        List<Coordinates> neighbors = new ArrayList<>();
-        neighbors.add(new Coordinates(0,0));
-        neighbors.add(new Coordinates(0,1));
-        neighbors.add(new Coordinates(0,2));
-        neighbors.add(new Coordinates(1,0));
-        neighbors.add(new Coordinates(1,2));
-        neighbors.add(new Coordinates(2,0));
-        neighbors.add(new Coordinates(2,1));
-        neighbors.add(new Coordinates(2,2));
+        List<Coordinate> neighbors = new ArrayList<>();
+        neighbors.add(new Coordinate(0,0));
+        neighbors.add(new Coordinate(0,1));
+        neighbors.add(new Coordinate(0,2));
+        neighbors.add(new Coordinate(1,0));
+        neighbors.add(new Coordinate(1,2));
+        neighbors.add(new Coordinate(2,0));
+        neighbors.add(new Coordinate(2,1));
+        neighbors.add(new Coordinate(2,2));
 
         when(mockNeighborsService.determineNeighborCoordinates(grid, 1,1)).thenReturn(neighbors);
 

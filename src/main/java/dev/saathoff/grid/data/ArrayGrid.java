@@ -1,6 +1,8 @@
-package dev.saathoff.grid.bean;
+package dev.saathoff.grid.data;
 
-public class ArrayGrid<T> implements Grid<T> {
+import dev.saathoff.game.data.Cell;
+
+public class ArrayGrid<T extends Cell> implements Grid<T> {
 
     private Object[][] cells;
 
@@ -21,7 +23,7 @@ public class ArrayGrid<T> implements Grid<T> {
     }
 
     @Override
-    public T getCell(Coordinates cord) {
+    public T getCell(Coordinate cord) {
         return this.getCell(cord.row(), cord.column());
     }
 

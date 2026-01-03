@@ -1,8 +1,8 @@
 package dev.saathoff.minesweeper.service;
 
-import dev.saathoff.grid.bean.Grid;
+import dev.saathoff.grid.data.Grid;
 import dev.saathoff.minesweeper.bean.MSCell;
-import dev.saathoff.grid.bean.Coordinates;
+import dev.saathoff.grid.data.Coordinate;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,17 +12,20 @@ import java.util.random.RandomGenerator;
 
 public class MineService {
 
+    public Grid<MSCell> placeMines(Grid<MSCell> grid, int bombCount, int clickedRow, int clickedColumn) {
+        return this.placeMines(grid, bombCount, clickedRow, clickedColumn, new Random());
+    }
 
     public Grid<MSCell> placeMines(Grid<MSCell> grid, int bombCount, int clickedRow, int clickedColumn, RandomGenerator random){
         int rows = grid.getRowCount();
         int cols = grid.getColumnCount();
 
-        List<Coordinates> availableMineSpots = this.getAvailableMineSpots(rows, cols, clickedRow, clickedColumn);
+        List<Coordinate> availableMineSpots = this.getAvailableMineSpots(rows, cols, clickedRow, clickedColumn);
 
         Collections.shuffle(availableMineSpots, (Random) random);
 
         for (int i = 0; i < bombCount; i++) {
-            Coordinates spot = availableMineSpots.get(i);
+            Coordinate spot = availableMineSpots.get(i);
 
             int row = spot.row();
             int col = spot.column();
@@ -34,13 +37,13 @@ public class MineService {
         return grid;
     }
 
-    private List<Coordinates> getAvailableMineSpots(int rows, int cols, int clickedRow, int clickedColumn) {
-        List<Coordinates> availableMineSpots = new ArrayList<>();
+    private List<Coordinate> getAvailableMineSpots(int rows, int cols, int clickedRow, int clickedColumn) {
+        List<Coordinate> availableMineSpots = new ArrayList<>();
         for(int row = 0; row < rows; row++){
             for(int col = 0; col < cols; col++){
                 boolean isSafeZone = Math.abs(row - clickedRow) <= 1 && Math.abs(col - clickedColumn) <= 1;
                 if(!isSafeZone){
-                    availableMineSpots.add(new Coordinates(row, col));
+                    availableMineSpots.add(new Coordinate(row, col));
                 }
             }
         }

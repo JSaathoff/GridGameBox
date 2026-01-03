@@ -1,9 +1,9 @@
 package dev.saathoff.service.grid.impl;
 
-import dev.saathoff.grid.bean.ArrayGrid;
-import dev.saathoff.grid.bean.Grid;
+import dev.saathoff.grid.data.ArrayGrid;
+import dev.saathoff.grid.data.Grid;
 import dev.saathoff.grid.service.DetermineNeighborsService;
-import dev.saathoff.grid.bean.Coordinates;
+import dev.saathoff.grid.data.Coordinate;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -27,7 +27,7 @@ class DetermineNeighborsServiceTest {
         Grid grid = new ArrayGrid(3,3);
 
         // WHEN
-        List<Coordinates> neighbors = service.determineNeighborCoordinates(grid, row, col);
+        List<Coordinate> neighbors = service.determineNeighborCoordinates(grid, row, col);
 
         // THEN
         assertEquals(expectedCount, neighbors.size(),
