@@ -12,11 +12,11 @@ import java.util.random.RandomGenerator;
 
 public class MineService {
 
-    public Grid<MSCell> placeMines(Grid<MSCell> grid, int bombCount, int clickedRow, int clickedColumn) {
-        return this.placeMines(grid, bombCount, clickedRow, clickedColumn, new Random());
+    public Grid<MSCell> placeMines(Grid<MSCell> grid, int mineCount, int clickedRow, int clickedColumn) {
+        return this.placeMines(grid, mineCount, clickedRow, clickedColumn, new Random());
     }
 
-    public Grid<MSCell> placeMines(Grid<MSCell> grid, int bombCount, int clickedRow, int clickedColumn, RandomGenerator random){
+    public Grid<MSCell> placeMines(Grid<MSCell> grid, int mineCount, int clickedRow, int clickedColumn, RandomGenerator random){
         int rows = grid.getRowCount();
         int cols = grid.getColumnCount();
 
@@ -24,7 +24,7 @@ public class MineService {
 
         Collections.shuffle(availableMineSpots, (Random) random);
 
-        for (int i = 0; i < bombCount; i++) {
+        for (int i = 0; i < mineCount; i++) {
             Coordinate spot = availableMineSpots.get(i);
 
             int row = spot.row();

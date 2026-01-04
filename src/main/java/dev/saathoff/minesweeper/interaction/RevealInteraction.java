@@ -1,15 +1,13 @@
 package dev.saathoff.minesweeper.interaction;
 
-import dev.saathoff.game.data.AbstractGameState;
 import dev.saathoff.grid.data.Grid;
 import dev.saathoff.minesweeper.bean.MSCell;
 import dev.saathoff.game.interaction.CellInteraction;
 import dev.saathoff.minesweeper.bean.MSGameStatus;
-import dev.saathoff.minesweeper.bean.MSMetaData;
 import dev.saathoff.minesweeper.service.MineService;
 import dev.saathoff.minesweeper.service.RevealCellService;
 
-public class RevealInteraction implements CellInteraction<MSCell, MSMetaData> {
+public class RevealInteraction implements CellInteraction<MSCell> {
 
     private MineService mineService;
 
@@ -20,10 +18,8 @@ public class RevealInteraction implements CellInteraction<MSCell, MSMetaData> {
     }
 
     @Override
-    public void interact(AbstractGameState<MSCell, MSMetaData> gameState, int row, int column) {
-        Grid<MSCell> grid = gameState.getGrid();
+    public void interact(Grid<MSCell> grid, int row, int column) {
         MSCell clickedCell = grid.getCell(row, column);
-        MSMetaData metaData = gameState.getMetaData();
 
         if(clickedCell.isMine()){
             // TODO Move this check into gameloop service. This is not the responsebilty of the reveal interaction

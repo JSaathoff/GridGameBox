@@ -1,9 +1,8 @@
 package dev.saathoff.game.interaction;
 
-import dev.saathoff.game.data.AbstractGameState;
 import dev.saathoff.game.data.Cell;
-import dev.saathoff.game.data.GameMetadata;
+import dev.saathoff.grid.data.Grid;
 
-public interface CellInteraction<C extends Cell, T extends GameMetadata> {
-     void interact(AbstractGameState<C, T> gameState, int row, int column);
+public interface CellInteraction<T extends Cell> {
+     void interact(Grid<T> grid , int row, int column);
 }

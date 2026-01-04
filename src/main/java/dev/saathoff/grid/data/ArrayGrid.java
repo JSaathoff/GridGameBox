@@ -2,6 +2,9 @@ package dev.saathoff.grid.data;
 
 import dev.saathoff.game.data.Cell;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 public class ArrayGrid<T extends Cell> implements Grid<T> {
 
     private Object[][] cells;
@@ -14,6 +17,13 @@ public class ArrayGrid<T extends Cell> implements Grid<T> {
     public void setCell( int row, int column, T cell){
         this.checkBoundaries(row, column);
         this.cells[row][column] = cell;
+    }
+
+    @Override
+    public Stream<T> asStream() {
+        return Arrays.stream(this.cells)
+                .flatMap(Arrays::stream)
+                .map(obj -> (T) obj);
     }
 
     @Override
@@ -37,11 +47,11 @@ public class ArrayGrid<T extends Cell> implements Grid<T> {
     }
 
     private void checkBoundaries(int row, int column){
-        if(row < 0 && row >= this.cells.length){
-            throw new IndexOutOfBoundsException("Row does not exist");
+        if(row < 0 || row >= this.getRowCount()){
+            throw new IndexOutOfBoundsException("Row " + row + " is out of bounds for height " + getRowCount());
         }
-        if(column < 0 && row >= this.cells[0].length){
-            throw new IndexOutOfBoundsException("Column does not exist");
+        if(column < 0 || column >= this.getColumnCount()){
+            throw new IndexOutOfBoundsException("Column " + column + " is out of bounds for width " + getColumnCount());
         }
     }
 }

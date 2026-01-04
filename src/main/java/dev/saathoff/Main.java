@@ -1,7 +1,6 @@
 package dev.saathoff;
 
 import dev.saathoff.gameoflife.data.GOLCell;
-import dev.saathoff.gameoflife.data.GameOfLifeState;
 import dev.saathoff.grid.data.Grid;
 import dev.saathoff.gameoflife.service.CellStateCalculationService;
 import dev.saathoff.gameoflife.service.GOLAbstractGridService;
@@ -18,12 +17,10 @@ public class Main {
         CellInteraction toggleCellInteraction = new GOLToggleCellInteraction();
 
         Grid<GOLCell> grid = gridService.generateNewGrid(5, 5);
-        GameOfLifeState state = new GameOfLifeState();
-        state.setGrid(grid);
 
-        toggleCellInteraction.interact(state, 2,1);
-        toggleCellInteraction.interact(state, 2,2);
-        toggleCellInteraction.interact(state, 2,3);
+        toggleCellInteraction.interact(grid, 2,1);
+        toggleCellInteraction.interact(grid, 2,2);
+        toggleCellInteraction.interact(grid, 2,3);
 
         CellStateCalculationService cellStateCalculationService = new CellStateCalculationService();
         System.out.println(displayService.displayGridState(grid));
