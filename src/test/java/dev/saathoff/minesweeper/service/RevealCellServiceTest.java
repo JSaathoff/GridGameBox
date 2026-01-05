@@ -35,7 +35,7 @@ class RevealCellServiceTest {
         mineCountCalculator.setMineCountsForGrid(grid);
 
         // WHEN
-        revealService.revealCell(grid, 0, 0);
+        revealService.revealCell(gameState, grid, 0, 0);
 
         // THEN
         assertTrue(grid.getCell(0, 0).isRevealed(), "Starting cell should be revealed");
