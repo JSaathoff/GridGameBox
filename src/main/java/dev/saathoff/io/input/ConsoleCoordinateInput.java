@@ -1,4 +1,4 @@
-package dev.saathoff.io;
+package dev.saathoff.io.input;
 
 import dev.saathoff.grid.data.Coordinate;
 import dev.saathoff.grid.data.Grid;

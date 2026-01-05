@@ -2,7 +2,7 @@ package dev.saathoff.minesweeper.interaction;
 
 import dev.saathoff.game.data.exception.IllegalMoveException;
 import dev.saathoff.grid.data.Grid;
-import dev.saathoff.io.select.Selectable;
+import dev.saathoff.io.input.select.Selectable;
 import dev.saathoff.minesweeper.bean.MSCell;
 import dev.saathoff.game.interaction.CellInteraction;
 import dev.saathoff.minesweeper.bean.MSGameState;

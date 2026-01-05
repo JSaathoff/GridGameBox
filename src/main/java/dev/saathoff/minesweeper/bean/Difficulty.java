@@ -1,6 +1,6 @@
 package dev.saathoff.minesweeper.bean;
 
-import dev.saathoff.io.select.Selectable;
+import dev.saathoff.io.input.select.Selectable;
 
 public enum Difficulty implements Selectable {
     EASY(10, 8, 8),

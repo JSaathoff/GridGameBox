@@ -1,20 +1,12 @@
 package dev.saathoff;
 
-import dev.saathoff.game.RunnableGame;
-import dev.saathoff.gameoflife.data.GOLCell;
-import dev.saathoff.gameoflife.data.GOLGameState;
-import dev.saathoff.grid.data.Grid;
-import dev.saathoff.gameoflife.service.CellStateCalculationService;
-import dev.saathoff.gameoflife.service.GOLAbstractGridService;
-import dev.saathoff.grid.display.GridDisplayService;
-import dev.saathoff.gameoflife.display.GOLDisplayService;
-import dev.saathoff.game.interaction.CellInteraction;
-import dev.saathoff.gameoflife.interaction.GOLToggleCellInteraction;
 import dev.saathoff.grid.service.DetermineNeighborsService;
-import dev.saathoff.io.ConsoleCoordinateInput;
-import dev.saathoff.io.select.ConsoleSelectInput;
+import dev.saathoff.io.input.ConsoleCoordinateInput;
+import dev.saathoff.io.input.select.ConsoleSelectInput;
+import dev.saathoff.io.output.ConsoleOutputService;
 import dev.saathoff.minesweeper.display.MSDisplayService;
 import dev.saathoff.minesweeper.gameloop.MinesweeperRunner;
+import dev.saathoff.minesweeper.interaction.RevealAllNeighborsOfRevealedCellInteraction;
 import dev.saathoff.minesweeper.interaction.RevealInteraction;
 import dev.saathoff.minesweeper.interaction.ToggleFlagInteraction;
 import dev.saathoff.minesweeper.service.MSGridService;
@@ -55,11 +47,13 @@ public class Main {
                 revealInteraction,
                 new ConsoleSelectInput(new Scanner(System.in)),
                 new ConsoleCoordinateInput(new Scanner(System.in)),
-                new MSDisplayService()
+                new MSDisplayService(),
+                new ConsoleOutputService()
         );
         minesweeper.registerInteractions(
                 revealInteraction,
-                new ToggleFlagInteraction()
+                new ToggleFlagInteraction(),
+                new RevealAllNeighborsOfRevealedCellInteraction()
         );
         minesweeper.runGame();
     }

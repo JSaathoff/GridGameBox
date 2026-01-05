@@ -1,4 +1,4 @@
-package dev.saathoff.io.select;
+package dev.saathoff.io.input.select;
 
 import java.util.HashMap;
 import java.util.Map;

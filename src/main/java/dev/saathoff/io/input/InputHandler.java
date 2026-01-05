@@ -1,4 +1,4 @@
-package dev.saathoff.io;
+package dev.saathoff.io.input;
 
 public interface InputHandler {
 
