@@ -8,14 +8,21 @@ public class MSGameState implements GameState {
 
     private MSGameStatus gameStatus;
 
-    private int mineCount;
+
+    private int flagCount;
+
+    private int revealedCellCount;
 
     private Difficulty difficulty;
 
-    public MSGameState(boolean minesPlaced, MSGameStatus gameStatus, int mineCount, Difficulty difficulty) {
+    public MSGameState() {
+    }
+
+    public MSGameState(boolean minesPlaced, MSGameStatus gameStatus, int flagCount, int revealedCellCount, Difficulty difficulty) {
         this.minesPlaced = minesPlaced;
         this.gameStatus = gameStatus;
-        this.mineCount = mineCount;
+        this.flagCount = flagCount;
+        this.revealedCellCount = revealedCellCount;
         this.difficulty = difficulty;
     }
 
@@ -35,19 +42,27 @@ public class MSGameState implements GameState {
         this.gameStatus = gameStatus;
     }
 
-    public int getMineCount() {
-        return mineCount;
-    }
-
-    public void setMineCount(int mineCount) {
-        this.mineCount = mineCount;
-    }
-
     public Difficulty getDifficulty() {
         return difficulty;
     }
 
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public int getFlagCount() {
+        return flagCount;
+    }
+
+    public void setFlagCount(int flagCount) {
+        this.flagCount = flagCount;
+    }
+
+    public int getRevealedCellCount() {
+        return revealedCellCount;
+    }
+
+    public void setRevealedCellCount(int revealedCellCount) {
+        this.revealedCellCount = revealedCellCount;
     }
 }

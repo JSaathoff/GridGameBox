@@ -3,6 +3,7 @@ package dev.saathoff.minesweeper.service;
 import dev.saathoff.grid.data.Grid;
 import dev.saathoff.grid.service.DetermineNeighborsService;
 import dev.saathoff.minesweeper.bean.MSCell;
+import dev.saathoff.minesweeper.bean.MSGameState;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,7 +36,7 @@ class RevealCellServiceTest {
         mineCountCalculator.setMineCountsForGrid(grid);
 
         // WHEN
-        revealService.revealCell(gameState, grid, 0, 0);
+        revealService.revealCell(new MSGameState(), grid, 0, 0);
 
         // THEN
         assertTrue(grid.getCell(0, 0).isRevealed(), "Starting cell should be revealed");

@@ -1,14 +1,18 @@
 package dev.saathoff.minesweeper.gameloop;
 
 import dev.saathoff.game.RunnableGame;
-import dev.saathoff.game.data.GameState;
+import dev.saathoff.game.data.exception.IllegalMoveException;
 import dev.saathoff.game.interaction.CellInteraction;
 import dev.saathoff.grid.data.Coordinate;
 import dev.saathoff.grid.data.Grid;
+import dev.saathoff.grid.display.GridDisplayService;
+import dev.saathoff.io.CoordinateInput;
+import dev.saathoff.io.select.SelectInput;
 import dev.saathoff.minesweeper.bean.Difficulty;
 import dev.saathoff.minesweeper.bean.MSCell;
 import dev.saathoff.minesweeper.bean.MSGameState;
 import dev.saathoff.minesweeper.bean.MSGameStatus;
+import dev.saathoff.minesweeper.interaction.RevealInteraction;
 import dev.saathoff.minesweeper.service.MSGridService;
 import dev.saathoff.minesweeper.service.MineCountCalculator;
 import dev.saathoff.minesweeper.service.MineService;
@@ -23,20 +27,30 @@ public class MinesweeperRunner implements RunnableGame {
 
     private MineCountCalculator mineCountCalculator;
 
-    private CellInteraction<MSCell> revealInteraction;
+    private Map<Integer, CellInteraction<MSCell, MSGameState>> cellInteractions;
 
-    private Map<Integer, CellInteraction<MSCell>> cellInteractions;
+    private SelectInput selectInput;
 
-    public MinesweeperRunner(MSGridService gridService, MineService mineService, MineCountCalculator mineCountCalculator, CellInteraction<MSCell> revealInteraction) {
+    private CoordinateInput coordinateInput;
+
+    private CellInteraction<MSCell, MSGameState> revealInteraction;
+
+    private GridDisplayService<MSCell> displayService;
+
+    public MinesweeperRunner(MSGridService gridService, MineService mineService, MineCountCalculator mineCountCalculator, Map<Integer, CellInteraction<MSCell,  MSGameState>> cellInteractions, RevealInteraction revealInteraction, SelectInput selectInput, CoordinateInput coordinateInput, GridDisplayService<MSCell> displayService) {
         this.gridService = gridService;
         this.mineService = mineService;
         this.mineCountCalculator = mineCountCalculator;
+        this.cellInteractions = cellInteractions;
         this.revealInteraction = revealInteraction;
+        this.selectInput = selectInput;
+        this.coordinateInput = coordinateInput;
+        this.displayService = displayService;
     }
 
-    private void registerInteractions(CellInteraction<MSCell>... interactions){
+    public void registerInteractions(CellInteraction<MSCell, MSGameState>... interactions){
         for(int i = 1; i <= interactions.length; i++){
-            cellInteractions.put(i, interactions[i]);
+            cellInteractions.put(i, interactions[i - 1]);
         }
     }
 
@@ -44,85 +58,66 @@ public class MinesweeperRunner implements RunnableGame {
     public void runGame() {
         // Configure Game
         MSGameState gameState = configureGame();
-        Grid<MSCell> grid = switch (gameState.getDifficulty()){
-            case EASY -> gridService.generateNewGrid(10,10);
-            case MEDIUM -> gridService.generateNewGrid(20,20);
-            case HARD -> gridService.generateNewGrid(30,30);
-        };
-        this.runGameLoop(gameState, grid);
-        switch (gameState.getGameStatus()){
+        Difficulty difficulty = gameState.getDifficulty();
+        Grid<MSCell> grid = gridService.generateNewGrid(difficulty.getRowCount(), difficulty.getColumnCount());
 
+        this.runGameLoop(gameState, grid);
+        displayService.displayGridState(grid);
+        switch (gameState.getGameStatus()){
+            case WON -> System.out.println("Yeah you won");
+            case LOST -> System.out.println("Nooo you lost");
         }
 
     }
 
     private MSGameState configureGame() {
         //Ask for difficulty
+        Difficulty difficulty = selectInput.selectFromEnum("Choose Difficulty", Difficulty.class);
+
         //based on difficulty decide the mine count
-        MSGameState gameState = new MSGameState(false, MSGameStatus.RUNNING, 5, Difficulty.EASY );
+        MSGameState gameState = new MSGameState(false, MSGameStatus.RUNNING, 0, 0, difficulty );
         return gameState;
     }
 
     private void runGameLoop(MSGameState gameState, Grid<MSCell> grid) {
-        Coordinate firstMove = new Coordinate(5, 5); // TODO: Real input
+        System.out.println(this.displayService.displayGridState(grid));
+        Coordinate firstMove = coordinateInput.getCoordinate("Which cell:", grid);
         initializeBoard(grid, gameState, firstMove);
 
         while (gameState.getGameStatus() == MSGameStatus.RUNNING) {
-            // TODO: Real input logic
-            Coordinate clickedPosition = new Coordinate(2, 2);
+            System.out.println(this.displayService.displayGridState(grid));
 
-            processTurn(gameState, grid, clickedPosition);
+            CellInteraction<MSCell, MSGameState> interaction = selectInput.select("Which action:", cellInteractions);
+            Coordinate clickedPosition = coordinateInput.getCoordinate("Which cell:", grid);
+            try {
+                interaction.interact(gameState, grid, clickedPosition.row(), clickedPosition.column());
+            } catch (IllegalMoveException e) {
+                System.out.println(e.getMessage());
+            }
 
-            if (checkWinCondition(grid)) {
+            if (checkWinCondition(grid, gameState)) {
                 gameState.setGameStatus(MSGameStatus.WON);
             }
         }
     }
 
     private void initializeBoard(Grid<MSCell> grid, MSGameState state, Coordinate firstMove) {
-        mineService.placeMines(grid, state.getMineCount(), firstMove.row(), firstMove.column());
+        mineService.placeMines(grid, state.getDifficulty().getMineCount(), firstMove.row(), firstMove.column());
         mineCountCalculator.setMineCountsForGrid(grid);
-        revealInteraction.interact(grid, firstMove.row(), firstMove.column());
-        // displayGrid(grid);
+        revealInteraction.interact(state, grid, firstMove.row(), firstMove.column());
     }
 
-    private void processTurn(MSGameState gameState, Grid<MSCell> grid, Coordinate position) {
-        MSCell clickedCell = grid.getCell(position);
-
-        if (isInvalidMove(clickedCell)) {
-            return;
-        }
-
-        revealInteraction.interact(grid, position.row(), position.column());
-
-        if (clickedCell.isMine()) {
-            gameState.setGameStatus(MSGameStatus.LOST);
-        }
+    private boolean checkWinCondition(Grid<MSCell> grid, MSGameState gameState) {
+        int totalCells = grid.getRowCount() * grid.getColumnCount();
+        int mines = gameState.getDifficulty().getMineCount();
+        return gameState.getRevealedCellCount() == totalCells - mines;
     }
 
-    private boolean isInvalidMove(MSCell cell) {
-        if (cell.isRevealed()) {
-            // Inform user: already revealed
-            return true;
-        }
-        if (cell.isFlagged()) {
-            // Inform user: cell is flagged
-            return true;
-        }
-        return false;
-    }
-
-    private boolean checkWinCondition(Grid<MSCell> grid) {
-        return grid.asStream()
-                .filter(cell -> !cell.isMine()) // Look at safe cells
-                .allMatch(MSCell::isRevealed);   // Are they ALL revealed?
-    }
-
-    public CellInteraction<MSCell> getRevealInteraction() {
+    public CellInteraction<MSCell, MSGameState> getRevealInteraction() {
         return revealInteraction;
     }
 
-    public void setRevealInteraction(CellInteraction<MSCell> revealInteraction) {
+    public void setRevealInteraction(CellInteraction<MSCell, MSGameState> revealInteraction) {
         this.revealInteraction = revealInteraction;
     }
 
@@ -132,5 +127,13 @@ public class MinesweeperRunner implements RunnableGame {
 
     public void setMineCountCalculator(MineCountCalculator mineCountCalculator) {
         this.mineCountCalculator = mineCountCalculator;
+    }
+
+    public CoordinateInput getCoordinateInput() {
+        return coordinateInput;
+    }
+
+    public void setCoordinateInput(CoordinateInput coordinateInput) {
+        this.coordinateInput = coordinateInput;
     }
 }
