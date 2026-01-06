@@ -2,8 +2,11 @@ package dev.saathoff;
 
 import dev.saathoff.grid.service.DetermineNeighborsService;
 import dev.saathoff.io.input.ConsoleCoordinateInput;
+import dev.saathoff.io.input.NumberInput;
+import dev.saathoff.io.input.NumberValidationObject;
 import dev.saathoff.io.input.select.ConsoleSelectInput;
 import dev.saathoff.io.output.ConsoleOutputService;
+import dev.saathoff.io.output.OutputService;
 import dev.saathoff.minesweeper.display.MSDisplayService;
 import dev.saathoff.minesweeper.gameloop.MinesweeperRunner;
 import dev.saathoff.minesweeper.interaction.RevealAllNeighborsOfRevealedCellInteraction;
@@ -38,17 +41,23 @@ public class Main {
         System.out.println(displayService.displayGridState(nextGridState));
 
          */
+
+        NumberInput input = new NumberInput(new ConsoleOutputService(), new Scanner(System.in));
+        int result = input.getInput("Test", new NumberValidationObject(0,5));
+        System.out.println(result);
+        /*
         RevealInteraction revealInteraction = new RevealInteraction(new RevealCellService(new DetermineNeighborsService()));
+        OutputService outputService = new ConsoleOutputService();
         MinesweeperRunner minesweeper = new MinesweeperRunner(
                 new MSGridService(),
                 new MineService(),
                 new MineCountCalculator(new DetermineNeighborsService()),
                 new HashMap<>(),
                 revealInteraction,
-                new ConsoleSelectInput(new Scanner(System.in)),
-                new ConsoleCoordinateInput(new Scanner(System.in)),
+                new ConsoleSelectInput(new Scanner(System.in), outputService),
+                new ConsoleCoordinateInput(new Scanner(System.in), outputService),
                 new MSDisplayService(),
-                new ConsoleOutputService()
+                outputService
         );
         minesweeper.registerInteractions(
                 revealInteraction,
@@ -56,5 +65,7 @@ public class Main {
                 new RevealAllNeighborsOfRevealedCellInteraction()
         );
         minesweeper.runGame();
+
+         */
     }
 }

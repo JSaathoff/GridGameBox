@@ -2,6 +2,7 @@ package dev.saathoff.io.input;
 
 import dev.saathoff.grid.data.Coordinate;
 import dev.saathoff.grid.data.Grid;
+import dev.saathoff.io.output.OutputService;
 
 import java.util.Scanner;
 
@@ -9,16 +10,19 @@ public class ConsoleCoordinateInput implements CoordinateInput{
 
     private Scanner scanner;
 
-    public ConsoleCoordinateInput(Scanner scanner) {
+    private OutputService outputService;
+
+    public ConsoleCoordinateInput(Scanner scanner, OutputService outputService) {
         this.scanner = scanner;
+        this.outputService = outputService;
     }
 
     @Override
     public Coordinate getCoordinate(String label, Grid<?> grid) {
-        System.out.println("\n--- " + label + " ---");
-        System.out.println("Enter row");
+        outputService.output("\n--- " + label + " ---");
+        outputService.output("Enter row");
         int row = getCoordinate(grid.getRowCount());
-        System.out.println("Enter column");
+        outputService.output("Enter column");
         int column = getCoordinate(grid.getColumnCount());
         return new Coordinate(row, column);
     }
@@ -32,9 +36,9 @@ public class ConsoleCoordinateInput implements CoordinateInput{
                 if (coord >= 0 && coord <= maxValue) {
                     return coord;
                 }
-                System.out.println("Invalid choice. Please pick a number from the list.");
+                outputService.output("Invalid choice. Please pick a number from the list.");
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a number.");
+                outputService.output("Invalid input. Please enter a number.");
             }
         }
     }
