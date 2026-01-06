@@ -6,7 +6,7 @@ import dev.saathoff.io.input.select.Selectable;
 import dev.saathoff.minesweeper.bean.MSCell;
 import dev.saathoff.game.interaction.CellInteraction;
 import dev.saathoff.minesweeper.bean.MSGameState;
-import dev.saathoff.minesweeper.bean.MSGameStatus;
+import dev.saathoff.minesweeper.bean.Outcome;
 import dev.saathoff.minesweeper.service.RevealCellService;
 
 public class RevealInteraction implements CellInteraction<MSCell, MSGameState>, Selectable {
@@ -22,7 +22,7 @@ public class RevealInteraction implements CellInteraction<MSCell, MSGameState>, 
     public void interact(MSGameState gameState, Grid<MSCell> grid, int row, int column) throws IllegalMoveException {
         MSCell cell = grid.getCell(row, column);
         if(cell.isMine()){
-            gameState.setGameStatus(MSGameStatus.LOST);
+            gameState.setOutcome(Outcome.LOST);
         }
         if (cell.isFlagged()) {
             throw new IllegalMoveException("Cannot reveal a flagged cell!");

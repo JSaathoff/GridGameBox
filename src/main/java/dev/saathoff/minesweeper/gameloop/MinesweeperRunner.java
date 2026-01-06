@@ -12,7 +12,7 @@ import dev.saathoff.io.output.OutputService;
 import dev.saathoff.minesweeper.bean.Difficulty;
 import dev.saathoff.minesweeper.bean.MSCell;
 import dev.saathoff.minesweeper.bean.MSGameState;
-import dev.saathoff.minesweeper.bean.MSGameStatus;
+import dev.saathoff.minesweeper.bean.Outcome;
 import dev.saathoff.minesweeper.interaction.RevealInteraction;
 import dev.saathoff.minesweeper.service.MSGridService;
 import dev.saathoff.minesweeper.service.MineCountCalculator;
@@ -60,17 +60,13 @@ public class MinesweeperRunner implements RunnableGame {
 
     @Override
     public void runGame() {
-        // Configure Game
         MSGameState gameState = configureGame();
         Difficulty difficulty = gameState.getDifficulty();
         Grid<MSCell> grid = gridService.generateNewGrid(difficulty.getRowCount(), difficulty.getColumnCount());
 
         this.runGameLoop(gameState, grid);
-        outputService.output(displayService.displayGridState(grid));
-        switch (gameState.getGameStatus()){
-            case WON -> outputService.output("Yeah you won");
-            case LOST -> outputService.output("Nooo you lost");//TODO, Reveal all Fields
-        }
+
+        gameState.getOutcome().getOutcomeHandler().handleOutcome(gameState, grid);
 
     }
 
@@ -78,7 +74,7 @@ public class MinesweeperRunner implements RunnableGame {
 
         Difficulty difficulty = selectInput.selectFromEnum("Choose Difficulty", Difficulty.class);
 
-        MSGameState gameState = new MSGameState(false, MSGameStatus.RUNNING, 0, 0, difficulty );
+        MSGameState gameState = new MSGameState(false, null, 0, 0, difficulty );
         return gameState;
     }
 
@@ -87,7 +83,7 @@ public class MinesweeperRunner implements RunnableGame {
         Coordinate firstMove = coordinateInput.getCoordinate("Which cell:", grid);
         initializeBoard(grid, gameState, firstMove);
 
-        while (gameState.getGameStatus() == MSGameStatus.RUNNING) {
+        while (gameState.getOutcome() == null) {
             outputService.output(this.displayService.displayGridState(grid));
 
             CellInteraction<MSCell, MSGameState> interaction = selectInput.select("Which action:", cellInteractions);
@@ -99,7 +95,7 @@ public class MinesweeperRunner implements RunnableGame {
             }
 
             if (checkWinCondition(grid, gameState)) {
-                gameState.setGameStatus(MSGameStatus.WON);
+                gameState.setOutcome(Outcome.WON);
             }
         }
     }

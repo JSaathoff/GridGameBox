@@ -6,8 +6,7 @@ public class MSGameState implements GameState {
 
     private boolean minesPlaced;
 
-    private MSGameStatus gameStatus;
-
+    private Outcome outcome;
 
     private int flagCount;
 
@@ -18,9 +17,9 @@ public class MSGameState implements GameState {
     public MSGameState() {
     }
 
-    public MSGameState(boolean minesPlaced, MSGameStatus gameStatus, int flagCount, int revealedCellCount, Difficulty difficulty) {
+    public MSGameState(boolean minesPlaced, Outcome outcome, int flagCount, int revealedCellCount, Difficulty difficulty) {
         this.minesPlaced = minesPlaced;
-        this.gameStatus = gameStatus;
+        this.outcome = outcome;
         this.flagCount = flagCount;
         this.revealedCellCount = revealedCellCount;
         this.difficulty = difficulty;
@@ -34,12 +33,12 @@ public class MSGameState implements GameState {
         this.minesPlaced = minesPlaced;
     }
 
-    public MSGameStatus getGameStatus() {
-        return gameStatus;
+    public Outcome getOutcome() {
+        return outcome;
     }
 
-    public void setGameStatus(MSGameStatus gameStatus) {
-        this.gameStatus = gameStatus;
+    public void setOutcome(Outcome outcome) {
+        this.outcome = outcome;
     }
 
     public Difficulty getDifficulty() {
