@@ -5,6 +5,12 @@ import dev.saathoff.io.input.validator.InputValidator;
 import dev.saathoff.io.input.validator.ValidationResult;
 import dev.saathoff.io.output.OutputService;
 
+/**
+ * Base implementation for a looped input process.
+ *
+ * @param <I> The <b>Result Type</b>: The type of data returned after successful conversion.
+ * @param <V> The <b>Validation Type</b>: The object providing the context needed to validate the converted input.
+ */
 public abstract class AbstractInputService<I, V> implements Input<I, V> {
 
     protected final OutputService outputService;
