@@ -7,6 +7,7 @@ import dev.saathoff.gameoflife.service.CellStateCalculationService;
 import dev.saathoff.gameoflife.service.GOLAbstractGridService;
 import dev.saathoff.grid.data.Coordinate;
 import dev.saathoff.grid.data.Grid;
+import dev.saathoff.grid.display.GridRenderService;
 import dev.saathoff.io.input.impl.CancellableCoordinateInput;
 import dev.saathoff.io.input.impl.IntegerInput;
 import dev.saathoff.io.input.validator.criteria.CoordinateValidationCriteria;
@@ -21,8 +22,8 @@ public class GameOfLifeRunner implements RunnableGame {
     private OutputService outputService;
     private GOLAbstractGridService gridService;
     private CancellableCoordinateInput cancellableCoordinateInput;
-    private GOLRenderService renderService;
-    private CellStateCalculationService cellStateCalculationService; //new CellStateCalculationService(new DetermineNeighborsService())
+    private GridRenderService<GOLCell> renderService;
+    private CellStateCalculationService cellStateCalculationService;
 
     public GameOfLifeRunner(IntegerInput integerInput, OutputService outputService, GOLAbstractGridService gridService, CancellableCoordinateInput cancellableCoordinateInput, GOLRenderService renderService, CellStateCalculationService cellStateCalculationService) {
         this.integerInput = integerInput;
@@ -54,12 +55,16 @@ public class GameOfLifeRunner implements RunnableGame {
             if (optionalCoordinate.isEmpty()) {
                 return;
             }
-            GOLCell cell = grid.getCell(optionalCoordinate.get());
-            cell.setAlive(!cell.isAlive());
+            this.toggleCell(grid, optionalCoordinate.get());
             String renderedGrid = renderService.renderGrid(grid);
             outputService.output(renderedGrid);
         }
 
+    }
+
+    private void toggleCell(Grid<GOLCell> grid, Coordinate coordinate) {
+        GOLCell cell = grid.getCell(coordinate);
+        cell.setAlive(!cell.isAlive());
     }
 
     private Grid<GOLCell> configureGame() {
