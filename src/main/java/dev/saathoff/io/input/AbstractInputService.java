@@ -1,35 +1,43 @@
 package dev.saathoff.io.input;
 
+import dev.saathoff.io.input.converter.InputConverter;
+import dev.saathoff.io.input.validator.InputValidator;
+import dev.saathoff.io.input.validator.ValidationResult;
 import dev.saathoff.io.output.OutputService;
 
-import java.util.Scanner;
+public abstract class AbstractInputService<I, V> implements Input<I, V> {
 
-public abstract class AbstractInputService <I, V> {
+    protected final OutputService outputService;
+    protected final InputSource inputSource;
+    protected final InputConverter<I> converter;
+    protected final InputValidator<I, V> validator;
 
-    protected OutputService outputService;
-
-    protected Scanner scanner;
-
-    protected AbstractInputService(OutputService outputService, Scanner scanner) {
+    protected AbstractInputService(OutputService outputService, InputSource inputSource, InputConverter<I> converter, InputValidator<I, V> validator) {
         this.outputService = outputService;
-        this.scanner = scanner;
+        this.inputSource = inputSource;
+        this.converter = converter;
+        this.validator = validator;
     }
 
-    public I getInput(String label, V validationObject){
-        while (true){
+    @Override
+    public final I getInput(String label, V validationCriteria) {
+        while (true) {
             outputService.output(label);
-            I input = handleInput();
-            ValidationResult result = this.validate(input, validationObject);
-            if(result.isValid()){
-                return input;
+            String raw = inputSource.readInput();
+
+            try {
+                I convertedValue = converter.convert(raw);
+
+                ValidationResult result = validator.validate(convertedValue, validationCriteria);
+
+                if (result.isValid()) {
+                    return convertedValue;
+                }
+                outputService.output(result.errorMessage());
+
+            } catch (IllegalArgumentException e) {
+                outputService.output("Invalid format: " + e.getMessage());
             }
-            outputService.output(result.errorMessage());
         }
-
-
     }
-
-    protected abstract ValidationResult validate(I input, V validationObject);
-
-    protected abstract I handleInput();
 }

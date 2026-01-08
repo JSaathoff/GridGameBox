@@ -6,8 +6,9 @@ import dev.saathoff.game.interaction.CellInteraction;
 import dev.saathoff.grid.data.Coordinate;
 import dev.saathoff.grid.data.Grid;
 import dev.saathoff.grid.display.GridDisplayService;
-import dev.saathoff.io.input.CoordinateInput;
+import dev.saathoff.io.input.impl.CoordinateInput;
 import dev.saathoff.io.input.select.SelectInput;
+import dev.saathoff.io.input.validator.criteria.CoordinateValidationCriteria;
 import dev.saathoff.io.output.OutputService;
 import dev.saathoff.minesweeper.bean.Difficulty;
 import dev.saathoff.minesweeper.bean.MSCell;
@@ -40,7 +41,7 @@ public class MinesweeperRunner implements RunnableGame {
 
     private OutputService outputService;
 
-    public MinesweeperRunner(MSGridService gridService, MineService mineService, MineCountCalculator mineCountCalculator, Map<Integer, CellInteraction<MSCell,  MSGameState>> cellInteractions, RevealInteraction revealInteraction, SelectInput selectInput, CoordinateInput coordinateInput, GridDisplayService<MSCell> displayService, OutputService outputService) {
+    public MinesweeperRunner(MSGridService gridService, MineService mineService, MineCountCalculator mineCountCalculator, Map<Integer, CellInteraction<MSCell, MSGameState>> cellInteractions, RevealInteraction revealInteraction, SelectInput selectInput, CoordinateInput coordinateInput, GridDisplayService<MSCell> displayService, OutputService outputService) {
         this.gridService = gridService;
         this.mineService = mineService;
         this.mineCountCalculator = mineCountCalculator;
@@ -52,8 +53,8 @@ public class MinesweeperRunner implements RunnableGame {
         this.outputService = outputService;
     }
 
-    public void registerInteractions(CellInteraction<MSCell, MSGameState>... interactions){
-        for(int i = 1; i <= interactions.length; i++){
+    public void registerInteractions(CellInteraction<MSCell, MSGameState>... interactions) {
+        for (int i = 1; i <= interactions.length; i++) {
             cellInteractions.put(i, interactions[i - 1]);
         }
     }
@@ -74,20 +75,20 @@ public class MinesweeperRunner implements RunnableGame {
 
         Difficulty difficulty = selectInput.selectFromEnum("Choose Difficulty", Difficulty.class);
 
-        MSGameState gameState = new MSGameState(false, null, 0, 0, difficulty );
+        MSGameState gameState = new MSGameState(false, null, 0, 0, difficulty);
         return gameState;
     }
 
     private void runGameLoop(MSGameState gameState, Grid<MSCell> grid) {
         outputService.output(this.displayService.displayGridState(grid));
-        Coordinate firstMove = coordinateInput.getCoordinate("Which cell:", grid);
+        Coordinate firstMove = coordinateInput.getInput("Which cell:", new CoordinateValidationCriteria(0, grid.getRowCount(), 0, grid.getColumnCount()));
         initializeBoard(grid, gameState, firstMove);
 
         while (gameState.getOutcome() == null) {
             outputService.output(this.displayService.displayGridState(grid));
 
             CellInteraction<MSCell, MSGameState> interaction = selectInput.select("Which action:", cellInteractions);
-            Coordinate clickedPosition = coordinateInput.getCoordinate("Which cell:", grid);
+            Coordinate clickedPosition = coordinateInput.getInput("Which cell:", new CoordinateValidationCriteria(0, grid.getRowCount(), 0, grid.getColumnCount()));
             try {
                 interaction.interact(gameState, grid, clickedPosition.row(), clickedPosition.column());
             } catch (IllegalMoveException e) {

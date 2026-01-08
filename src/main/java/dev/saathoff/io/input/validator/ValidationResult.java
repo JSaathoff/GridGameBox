@@ -1,4 +1,4 @@
-package dev.saathoff.io.input;
+package dev.saathoff.io.input.validator;
 
 public record ValidationResult(boolean isValid, String errorMessage) {
     public static ValidationResult ok() {
