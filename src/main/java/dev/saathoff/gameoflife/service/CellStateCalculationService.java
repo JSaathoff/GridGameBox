@@ -1,8 +1,8 @@
 package dev.saathoff.gameoflife.service;
 
 import dev.saathoff.gameoflife.data.GOLCell;
-import dev.saathoff.grid.data.Grid;
 import dev.saathoff.grid.data.Coordinate;
+import dev.saathoff.grid.data.Grid;
 import dev.saathoff.grid.service.DetermineNeighborsService;
 
 import java.util.List;
@@ -11,30 +11,18 @@ public class CellStateCalculationService {
 
     private DetermineNeighborsService determineNeighborsService;
 
-    private int countAliveNeighbors(Grid<GOLCell> grid, int row, int column) {
-
-        int aliveNeighbors = 0;
-
-        List<Coordinate> neighborCoordinates = this.determineNeighborsService.determineNeighborCoordinates(grid, row, column);
-
-        for(Coordinate cord : neighborCoordinates){
-            GOLCell neighborCell = grid.getCell(cord);
-            if(neighborCell.isAlive()){
-                aliveNeighbors++;
-            }
-        }
-
-        return aliveNeighbors;
+    public CellStateCalculationService(DetermineNeighborsService determineNeighborsService) {
+        this.determineNeighborsService = determineNeighborsService;
     }
 
     public GOLCell calculateCellState(Grid<GOLCell> grid, int row, int column) {
         GOLCell cell = grid.getCell(row, column);
         GOLCell nextGenCell = this.copyCell(cell);
         int aliveNeighbors = this.countAliveNeighbors(grid, row, column);
-        if(cell.isAlive() && (aliveNeighbors < 2 || aliveNeighbors > 3)){
-                nextGenCell.setAlive(false);
+        if (cell.isAlive() && (aliveNeighbors < 2 || aliveNeighbors > 3)) {
+            nextGenCell.setAlive(false);
         }
-        if(!cell.isAlive() && aliveNeighbors == 3){
+        if (!cell.isAlive() && aliveNeighbors == 3) {
             nextGenCell.setAlive(true);
         }
         return nextGenCell;
@@ -45,6 +33,23 @@ public class CellStateCalculationService {
         nextGenCell.setAlive(cell.isAlive());
         return nextGenCell;
     }
+
+    private int countAliveNeighbors(Grid<GOLCell> grid, int row, int column) {
+
+        int aliveNeighbors = 0;
+
+        List<Coordinate> neighborCoordinates = this.determineNeighborsService.determineNeighborCoordinates(grid, row, column);
+
+        for (Coordinate cord : neighborCoordinates) {
+            GOLCell neighborCell = grid.getCell(cord);
+            if (neighborCell.isAlive()) {
+                aliveNeighbors++;
+            }
+        }
+
+        return aliveNeighbors;
+    }
+
 
     public DetermineNeighborsService getDetermineNeighborsService() {
         return determineNeighborsService;

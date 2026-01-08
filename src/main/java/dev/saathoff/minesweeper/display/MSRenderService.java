@@ -1,10 +1,10 @@
 package dev.saathoff.minesweeper.display;
 
 import dev.saathoff.grid.data.Grid;
-import dev.saathoff.grid.display.GridDisplayService;
+import dev.saathoff.grid.display.GridRenderService;
 import dev.saathoff.minesweeper.bean.MSCell;
 
-public class MSDisplayService implements GridDisplayService<MSCell> {
+public class MSRenderService implements GridRenderService<MSCell> {
     private static final String RESET = "\u001B[0m";
     private static final String RED = "\u001B[31m";
     private static final String GREEN = "\u001B[32m";
@@ -14,7 +14,7 @@ public class MSDisplayService implements GridDisplayService<MSCell> {
     private static final String GRAY = "\u001B[90m";
 
     @Override
-    public String displayGridState(Grid<MSCell> grid) {
+    public String renderGrid(Grid<MSCell> grid) {
         StringBuilder sb = new StringBuilder("\n");
 
         this.generateColumnHeader(grid, sb);

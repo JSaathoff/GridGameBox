@@ -5,7 +5,7 @@ import dev.saathoff.game.data.exception.IllegalMoveException;
 import dev.saathoff.game.interaction.CellInteraction;
 import dev.saathoff.grid.data.Coordinate;
 import dev.saathoff.grid.data.Grid;
-import dev.saathoff.grid.display.GridDisplayService;
+import dev.saathoff.grid.display.GridRenderService;
 import dev.saathoff.io.input.impl.CoordinateInput;
 import dev.saathoff.io.input.select.SelectInput;
 import dev.saathoff.io.input.validator.criteria.CoordinateValidationCriteria;
@@ -37,11 +37,11 @@ public class MinesweeperRunner implements RunnableGame {
 
     private CellInteraction<MSCell, MSGameState> revealInteraction;
 
-    private GridDisplayService<MSCell> displayService;
+    private GridRenderService<MSCell> displayService;
 
     private OutputService outputService;
 
-    public MinesweeperRunner(MSGridService gridService, MineService mineService, MineCountCalculator mineCountCalculator, Map<Integer, CellInteraction<MSCell, MSGameState>> cellInteractions, RevealInteraction revealInteraction, SelectInput selectInput, CoordinateInput coordinateInput, GridDisplayService<MSCell> displayService, OutputService outputService) {
+    public MinesweeperRunner(MSGridService gridService, MineService mineService, MineCountCalculator mineCountCalculator, Map<Integer, CellInteraction<MSCell, MSGameState>> cellInteractions, RevealInteraction revealInteraction, SelectInput selectInput, CoordinateInput coordinateInput, GridRenderService<MSCell> displayService, OutputService outputService) {
         this.gridService = gridService;
         this.mineService = mineService;
         this.mineCountCalculator = mineCountCalculator;
@@ -80,12 +80,12 @@ public class MinesweeperRunner implements RunnableGame {
     }
 
     private void runGameLoop(MSGameState gameState, Grid<MSCell> grid) {
-        outputService.output(this.displayService.displayGridState(grid));
+        outputService.output(this.displayService.renderGrid(grid));
         Coordinate firstMove = coordinateInput.getInput("Which cell:", new CoordinateValidationCriteria(0, grid.getRowCount(), 0, grid.getColumnCount()));
         initializeBoard(grid, gameState, firstMove);
 
         while (gameState.getOutcome() == null) {
-            outputService.output(this.displayService.displayGridState(grid));
+            outputService.output(this.displayService.renderGrid(grid));
 
             CellInteraction<MSCell, MSGameState> interaction = selectInput.select("Which action:", cellInteractions);
             Coordinate clickedPosition = coordinateInput.getInput("Which cell:", new CoordinateValidationCriteria(0, grid.getRowCount(), 0, grid.getColumnCount()));
