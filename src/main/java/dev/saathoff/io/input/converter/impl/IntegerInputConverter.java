@@ -7,7 +7,8 @@ public class IntegerInputConverter implements InputConverter<Integer> {
     public Integer convert(String rawInput) throws IllegalArgumentException {
         int convertedValue;
         try {
-            convertedValue = Integer.parseInt(rawInput);
+            String trimmedInput = rawInput.trim();
+            convertedValue = Integer.parseInt(trimmedInput);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Enter a valid integer number!");
         }
