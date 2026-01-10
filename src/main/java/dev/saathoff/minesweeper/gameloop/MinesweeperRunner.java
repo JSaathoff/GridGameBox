@@ -53,12 +53,6 @@ public class MinesweeperRunner implements RunnableGame {
         this.outputService = outputService;
     }
 
-    public void registerInteractions(CellInteraction<MSCell, MSGameState>... interactions) {
-        for (int i = 1; i <= interactions.length; i++) {
-            cellInteractions.put(i, interactions[i - 1]);
-        }
-    }
-
     @Override
     public void runGame() {
         MSGameState gameState = configureGame();
@@ -143,5 +137,10 @@ public class MinesweeperRunner implements RunnableGame {
 
     public void setOutputService(OutputService outputService) {
         this.outputService = outputService;
+    }
+
+    @Override
+    public String getLabelForSelection() {
+        return "Minesweeper";
     }
 }

@@ -74,4 +74,8 @@ public class GameOfLifeRunner implements RunnableGame {
         return grid;
     }
 
+    @Override
+    public String getLabelForSelection() {
+        return "Conways Game of Life";
+    }
 }

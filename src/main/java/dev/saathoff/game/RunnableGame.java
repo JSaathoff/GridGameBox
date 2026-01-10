@@ -1,5 +1,7 @@
 package dev.saathoff.game;
 
-public interface RunnableGame {
+import dev.saathoff.io.input.select.Selectable;
+
+public interface RunnableGame extends Selectable {
     void runGame();
 }

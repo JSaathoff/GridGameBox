@@ -39,6 +39,7 @@ public abstract class AbstractInputService<I, V> implements Input<I, V> {
                 if (result.isValid()) {
                     return convertedValue;
                 }
+                
                 outputService.output(result.errorMessage());
 
             } catch (IllegalArgumentException e) {

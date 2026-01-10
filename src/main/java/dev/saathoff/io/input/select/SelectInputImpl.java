@@ -1,31 +1,19 @@
 package dev.saathoff.io.input.select;
 
-import dev.saathoff.io.input.NumberSelectionInput;
+import dev.saathoff.io.input.Input;
 import dev.saathoff.io.output.OutputService;
 
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.Map;
 
-public class SelectInputImpl implements SelectInput {
+public class SelectInputImpl extends AbstractSelectInput implements SelectInput {
 
 
-    private OutputService outputService;
-    private final NumberSelectionInput integerInput;
+    private Input<Integer, Collection<Integer>> integerInput;
 
-    public SelectInputImpl(OutputService outputService, NumberSelectionInput integerInput) {
-        this.outputService = outputService;
+    public SelectInputImpl(OutputService outputService, Input<Integer, Collection<Integer>> integerInput) {
+        super(outputService);
         this.integerInput = integerInput;
-    }
-
-    @Override
-    public <T extends Enum<T> & Selectable> T selectFromEnum(String label, Class<T> enumClass) {
-        T[] constants = enumClass.getEnumConstants();
-        Map<Integer, T> options = new HashMap<>();
-
-        for (int i = 0; i < constants.length; i++) {
-            options.put(i + 1, constants[i]);
-        }
-        return select(label, options);
     }
 
     @Override
@@ -36,10 +24,8 @@ public class SelectInputImpl implements SelectInput {
         return options.get(selection);
     }
 
-    private <T extends Selectable> void listOptions(Map<Integer, T> options) {
-        options.forEach((key, value) ->
-                outputService.output("[" + key + "] - " + value.getLabelForSelection())
-        );
+    @Override
+    public <T extends Enum<T> & Selectable> T selectFromEnum(String label, Class<T> enumClass) {
+        return select(label, super.enumToMap(enumClass));
     }
-
 }
