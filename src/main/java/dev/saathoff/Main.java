@@ -6,7 +6,7 @@ import dev.saathoff.game.interaction.CellInteraction;
 import dev.saathoff.gameoflife.display.GOLRenderService;
 import dev.saathoff.gameoflife.gameloop.GameOfLifeRunner;
 import dev.saathoff.gameoflife.service.CellStateCalculationService;
-import dev.saathoff.gameoflife.service.GOLAbstractGridService;
+import dev.saathoff.gameoflife.service.GOLGridInitService;
 import dev.saathoff.grid.service.DetermineNeighborsService;
 import dev.saathoff.io.input.ConsoleInputSource;
 import dev.saathoff.io.input.NumberSelectionInput;
@@ -29,7 +29,7 @@ import dev.saathoff.minesweeper.display.MSRenderService;
 import dev.saathoff.minesweeper.gameloop.MinesweeperRunner;
 import dev.saathoff.minesweeper.interaction.RevealInteraction;
 import dev.saathoff.minesweeper.interaction.ToggleFlagInteraction;
-import dev.saathoff.minesweeper.service.MSGridService;
+import dev.saathoff.minesweeper.service.MSGridInitService;
 import dev.saathoff.minesweeper.service.MineCountCalculator;
 import dev.saathoff.minesweeper.service.MineService;
 import dev.saathoff.minesweeper.service.RevealCellService;
@@ -81,8 +81,8 @@ public class Main {
         CancellableSelectInput gameSelect = new CancellableSelectInputImpl(outputService, new CancellableIntegerSelectionInput(outputService, inputSource, new IntegerInputConverter(), new ContainedInCollectionValidator()));
 
         DetermineNeighborsService determineNeighborsService = new DetermineNeighborsService();
-        CellStateCalculationService cellStateCalculationService = new CellStateCalculationService(determineNeighborsService);
-        GOLAbstractGridService gridService = new GOLAbstractGridService(cellStateCalculationService);
+        GOLGridInitService gridService = new GOLGridInitService();
+        CellStateCalculationService cellStateCalculationService = new CellStateCalculationService(determineNeighborsService, gridService);
         GameOfLifeRunner gameOfLife = new GameOfLifeRunner(integerInput, outputService, gridService, cancellableCoordinateInput, new GOLRenderService(), cellStateCalculationService);
 
         RevealInteraction revealInteraction = new RevealInteraction(new RevealCellService(new DetermineNeighborsService()));
@@ -90,7 +90,7 @@ public class Main {
         interactions.put(1, new RevealInteraction(new RevealCellService(determineNeighborsService)));
         interactions.put(2, new ToggleFlagInteraction());
         MinesweeperRunner minesweeper = new MinesweeperRunner(
-                new MSGridService(),
+                new MSGridInitService(),
                 new MineService(),
                 new MineCountCalculator(new DetermineNeighborsService()),
                 interactions,

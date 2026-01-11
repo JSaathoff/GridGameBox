@@ -10,9 +10,23 @@ import java.util.List;
 public class CellStateCalculationService {
 
     private DetermineNeighborsService determineNeighborsService;
+    private GOLGridInitService gridInitService;
 
-    public CellStateCalculationService(DetermineNeighborsService determineNeighborsService) {
+    public CellStateCalculationService(DetermineNeighborsService determineNeighborsService, GOLGridInitService gridInitService) {
         this.determineNeighborsService = determineNeighborsService;
+        this.gridInitService = gridInitService;
+    }
+
+    public Grid<GOLCell> calculateNextGridState(Grid<GOLCell> grid, CellStateCalculationService cellStateCalculationService) {
+        Grid<GOLCell> nextGenGrid = this.gridInitService.generateNewGrid(grid.getRowCount(), grid.getColumnCount());
+
+        for (int i = 0; i < grid.getRowCount(); i++) {
+            for (int j = 0; j < grid.getColumnCount(); j++) {
+                GOLCell nextGenCell = this.calculateCellState(grid, i, j);
+                nextGenGrid.setCell(i, j, nextGenCell);
+            }
+        }
+        return nextGenGrid;
     }
 
     public GOLCell calculateCellState(Grid<GOLCell> grid, int row, int column) {

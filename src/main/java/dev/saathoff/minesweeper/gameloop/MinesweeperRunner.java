@@ -15,7 +15,7 @@ import dev.saathoff.minesweeper.bean.MSCell;
 import dev.saathoff.minesweeper.bean.MSGameState;
 import dev.saathoff.minesweeper.bean.Outcome;
 import dev.saathoff.minesweeper.interaction.RevealInteraction;
-import dev.saathoff.minesweeper.service.MSGridService;
+import dev.saathoff.minesweeper.service.MSGridInitService;
 import dev.saathoff.minesweeper.service.MineCountCalculator;
 import dev.saathoff.minesweeper.service.MineService;
 
@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class MinesweeperRunner implements RunnableGame {
 
-    private MSGridService gridService;
+    private MSGridInitService gridService;
 
     private MineService mineService;
 
@@ -41,7 +41,7 @@ public class MinesweeperRunner implements RunnableGame {
 
     private OutputService outputService;
 
-    public MinesweeperRunner(MSGridService gridService, MineService mineService, MineCountCalculator mineCountCalculator, Map<Integer, CellInteraction<MSCell, MSGameState>> cellInteractions, RevealInteraction revealInteraction, SelectInput selectInput, CoordinateInput coordinateInput, GridRenderService<MSCell> displayService, OutputService outputService) {
+    public MinesweeperRunner(MSGridInitService gridService, MineService mineService, MineCountCalculator mineCountCalculator, Map<Integer, CellInteraction<MSCell, MSGameState>> cellInteractions, RevealInteraction revealInteraction, SelectInput selectInput, CoordinateInput coordinateInput, GridRenderService<MSCell> displayService, OutputService outputService) {
         this.gridService = gridService;
         this.mineService = mineService;
         this.mineCountCalculator = mineCountCalculator;

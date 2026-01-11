@@ -6,15 +6,16 @@ import dev.saathoff.minesweeper.bean.MSCell;
 import dev.saathoff.minesweeper.bean.MSGameState;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RevealCellServiceTest {
 
     @Test
     void revealCell() {
         // GIVEN
-        MSGridService gridService = new MSGridService();
-        Grid<MSCell> grid = gridService.generateNewGrid(5,5);
+        MSGridInitService gridService = new MSGridInitService();
+        Grid<MSCell> grid = gridService.generateNewGrid(5, 5);
         RevealCellService revealService = new RevealCellService(new DetermineNeighborsService());
         MineCountCalculator mineCountCalculator = new MineCountCalculator(new DetermineNeighborsService());
 

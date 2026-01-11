@@ -1,10 +1,10 @@
 package dev.saathoff.service.minesweeper;
 
-import dev.saathoff.grid.data.Grid;
-import dev.saathoff.minesweeper.bean.MSCell;
 import dev.saathoff.grid.data.Coordinate;
+import dev.saathoff.grid.data.Grid;
 import dev.saathoff.grid.service.DetermineNeighborsService;
-import dev.saathoff.minesweeper.service.MSGridService;
+import dev.saathoff.minesweeper.bean.MSCell;
+import dev.saathoff.minesweeper.service.MSGridInitService;
 import dev.saathoff.minesweeper.service.MineCountCalculator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 
@@ -24,7 +24,7 @@ class MineCountCalculatorTest {
     @Mock
     DetermineNeighborsService mockNeighborsService;
 
-    private MSGridService gridService = new MSGridService();
+    private MSGridInitService gridService = new MSGridInitService();
 
     @Test
     void setMineCountsForGrid() {
@@ -35,22 +35,22 @@ class MineCountCalculatorTest {
         cell = grid.getCell(1, 0);
         cell.setMine(true);
         List<Coordinate> neighbors = new ArrayList<>();
-        neighbors.add(new Coordinate(0,0));
-        neighbors.add(new Coordinate(0,1));
-        neighbors.add(new Coordinate(0,2));
-        neighbors.add(new Coordinate(1,0));
-        neighbors.add(new Coordinate(1,2));
-        neighbors.add(new Coordinate(2,0));
-        neighbors.add(new Coordinate(2,1));
-        neighbors.add(new Coordinate(2,2));
+        neighbors.add(new Coordinate(0, 0));
+        neighbors.add(new Coordinate(0, 1));
+        neighbors.add(new Coordinate(0, 2));
+        neighbors.add(new Coordinate(1, 0));
+        neighbors.add(new Coordinate(1, 2));
+        neighbors.add(new Coordinate(2, 0));
+        neighbors.add(new Coordinate(2, 1));
+        neighbors.add(new Coordinate(2, 2));
 
-        when(mockNeighborsService.determineNeighborCoordinates(grid, 1,1)).thenReturn(neighbors);
+        when(mockNeighborsService.determineNeighborCoordinates(grid, 1, 1)).thenReturn(neighbors);
 
         // WHEN
         MineCountCalculator countCalculator = new MineCountCalculator(mockNeighborsService);
-        countCalculator.setMineCountForCell(grid, 1,1);
+        countCalculator.setMineCountForCell(grid, 1, 1);
         // THEN
-        assertEquals(2, grid.getCell(1,1).getMineCount());
+        assertEquals(2, grid.getCell(1, 1).getMineCount());
 
     }
 }

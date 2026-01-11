@@ -2,9 +2,10 @@ package dev.saathoff.service;
 
 import dev.saathoff.gameoflife.data.GOLCell;
 import dev.saathoff.gameoflife.service.CellStateCalculationService;
+import dev.saathoff.gameoflife.service.GOLGridInitService;
 import dev.saathoff.grid.data.Grid;
 import dev.saathoff.grid.service.DetermineNeighborsService;
-import dev.saathoff.gameoflife.service.GOLAbstractGridService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -12,22 +13,28 @@ import org.junit.jupiter.params.provider.CsvSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GOLCellStateCalculationServiceTest {
+    GOLGridInitService gridService;
 
-    CellStateCalculationService service = new CellStateCalculationService();
+    CellStateCalculationService cellStateCalculationService;
+
+    @BeforeEach
+    void setup() {
+        this.gridService = new GOLGridInitService();
+        this.cellStateCalculationService = new CellStateCalculationService(new DetermineNeighborsService(), gridService);
+    }
 
     private Grid<GOLCell> createGrid(int aliveNeighbors, boolean initialCellState) {
 
-        GOLAbstractGridService gridService = new GOLAbstractGridService(new CellStateCalculationService());
-        Grid<GOLCell> grid = gridService.generateNewGrid(3,3);
+        Grid<GOLCell> grid = gridService.generateNewGrid(3, 3);
 
         GOLCell cell = new GOLCell();
         cell.setAlive(initialCellState);
-        grid.setCell(1,1, cell);
+        grid.setCell(1, 1, cell);
 
         int[][] neighborCords = {
-                {0,0}, {0,1}, {0,2},
-                {1,0},        {1,2},
-                {2,0}, {2,1}, {2,2}
+                {0, 0}, {0, 1}, {0, 2},
+                {1, 0}, {1, 2},
+                {2, 0}, {2, 1}, {2, 2}
         };
 
         for (int i = 0; i < aliveNeighbors; i++) {
@@ -65,13 +72,13 @@ public class GOLCellStateCalculationServiceTest {
     })
     @DisplayName("GOL Rule Evaluation Test")
     public void testCellStateCalculation(int aliveNeighbors,
-                     boolean cellStateBefore,
-                     boolean expectedCellStateAfter){
+                                         boolean cellStateBefore,
+                                         boolean expectedCellStateAfter) {
         // GIVEN
         Grid<GOLCell> grid = createGrid(aliveNeighbors, cellStateBefore);
-        this.service.setDetermineNeighborsService(new DetermineNeighborsService());
+        this.cellStateCalculationService.setDetermineNeighborsService(new DetermineNeighborsService());
         // WHEN
-        GOLCell nextGenCell = this.service.calculateCellState(grid, 1, 1);
+        GOLCell nextGenCell = this.cellStateCalculationService.calculateCellState(grid, 1, 1);
         // THEN
         assertEquals(expectedCellStateAfter, nextGenCell.isAlive(),
                 String.format("Expected state %s with %d alive neighbors starting from %s",

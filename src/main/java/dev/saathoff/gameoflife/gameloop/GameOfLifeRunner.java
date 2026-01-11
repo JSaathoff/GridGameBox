@@ -4,7 +4,7 @@ import dev.saathoff.game.RunnableGame;
 import dev.saathoff.gameoflife.data.GOLCell;
 import dev.saathoff.gameoflife.display.GOLRenderService;
 import dev.saathoff.gameoflife.service.CellStateCalculationService;
-import dev.saathoff.gameoflife.service.GOLAbstractGridService;
+import dev.saathoff.gameoflife.service.GOLGridInitService;
 import dev.saathoff.grid.data.Coordinate;
 import dev.saathoff.grid.data.Grid;
 import dev.saathoff.grid.display.GridRenderService;
@@ -20,12 +20,12 @@ public class GameOfLifeRunner implements RunnableGame {
 
     private IntegerInput integerInput;
     private OutputService outputService;
-    private GOLAbstractGridService gridService;
+    private GOLGridInitService gridService;
     private CancellableCoordinateInput cancellableCoordinateInput;
     private GridRenderService<GOLCell> renderService;
     private CellStateCalculationService cellStateCalculationService;
 
-    public GameOfLifeRunner(IntegerInput integerInput, OutputService outputService, GOLAbstractGridService gridService, CancellableCoordinateInput cancellableCoordinateInput, GOLRenderService renderService, CellStateCalculationService cellStateCalculationService) {
+    public GameOfLifeRunner(IntegerInput integerInput, OutputService outputService, GOLGridInitService gridService, CancellableCoordinateInput cancellableCoordinateInput, GOLRenderService renderService, CellStateCalculationService cellStateCalculationService) {
         this.integerInput = integerInput;
         this.outputService = outputService;
         this.gridService = gridService;
@@ -40,7 +40,7 @@ public class GameOfLifeRunner implements RunnableGame {
         this.configureFirstGeneration(grid);
         int generationsToSimulate = this.integerInput.getInput("Enter number of Generations you want to simulate:", new RangeValidationCriteria(1, 100));
         for (int i = 0; i < generationsToSimulate; i++) {
-            grid = gridService.calculateNextGridState(grid, this.cellStateCalculationService);
+            grid = this.cellStateCalculationService.calculateNextGridState(grid, this.cellStateCalculationService);
             String renderedGrid = renderService.renderGrid(grid);
             outputService.output(renderedGrid);
         }
