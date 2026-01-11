@@ -7,6 +7,7 @@ import dev.saathoff.minesweeper.bean.MSCell;
 import dev.saathoff.minesweeper.bean.MSGameState;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public class RevealCellService {
 
@@ -24,12 +25,27 @@ public class RevealCellService {
         cell.setRevealed(true);
         int revealedCellCount = gameState.getRevealedCellCount();
         gameState.setRevealedCellCount(++revealedCellCount);
-        if(cell.getMineCount() == 0) {
+        if (cell.getMineCount() == 0) {
             List<Coordinate> coordinates = neighborsService.determineNeighborCoordinates(grid, row, column);
-            for(Coordinate coordinate : coordinates){
+            for (Coordinate coordinate : coordinates) {
                 this.revealCell(gameState, grid, coordinate.row(), coordinate.column());
             }
         }
+    }
+
+    public void revealNumber(MSGameState gameState, Grid<MSCell> grid, int row, int column) {
+        MSCell cell = grid.getCell(row, column);
+        List<Coordinate> neighborCoordinates = neighborsService.determineNeighborCoordinates(grid, row, column);
+        neighborCoordinates.forEach(coordinate -> revealCell(gameState, grid, coordinate.row(), coordinate.column()));
+    }
+
+    public boolean isNumberRevealable(Grid<MSCell> grid, int row, int column) {
+        MSCell cell = grid.getCell(row, column);
+        long mineCount = cell.getMineCount();
+        List<Coordinate> neighborCoordinates = neighborsService.determineNeighborCoordinates(grid, row, column);
+        Stream<MSCell> msCellStream = neighborCoordinates.stream().map(grid::getCell);
+        long flaggedCount = msCellStream.filter(MSCell::isFlagged).count();
+        return flaggedCount == mineCount;
     }
 
     public DetermineNeighborsService getNeighborsService() {
@@ -39,4 +55,6 @@ public class RevealCellService {
     public void setNeighborsService(DetermineNeighborsService neighborsService) {
         this.neighborsService = neighborsService;
     }
+
+
 }
