@@ -48,10 +48,10 @@ public class GameOfLifeRunner implements RunnableGame {
 
 
     private void configureFirstGeneration(Grid<GOLCell> grid) {
-        this.outputService.output("Lets configure the starting generation. You can toggle as many cells as you like. Once you're done just enter q to exit the toggling input.");
+        this.outputService.output("Lets configure the starting generation. You can toggle as many cells as you like. Once you're done just enter '" + cancellableCoordinateInput.getCancelCommand() + "' to exit the toggling input.");
         CoordinateValidationCriteria gridBounds = new CoordinateValidationCriteria(0, grid.getRowCount(), 0, grid.getColumnCount());
         while (true) {
-            Optional<Coordinate> optionalCoordinate = cancellableCoordinateInput.getInput("Enter row and column separted by comma or space", gridBounds);
+            Optional<Coordinate> optionalCoordinate = cancellableCoordinateInput.getInput("Enter row and column separated by comma or space. Once you finished enter '" + cancellableCoordinateInput.getCancelCommand() + "'", gridBounds);
             if (optionalCoordinate.isEmpty()) {
                 return;
             }

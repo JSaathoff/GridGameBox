@@ -40,42 +40,15 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        /*
-        GOLAbstractGridService gridService = new GOLAbstractGridService(new CellStateCalculationService());
-        GridDisplayService displayService = new GOLDisplayService();
-        CellInteraction toggleCellInteraction = new GOLToggleCellInteraction();
-        GOLGameState state = new GOLGameState();
-
-        Grid<GOLCell> grid = gridService.generateNewGrid(5, 5);
-
-        toggleCellInteraction.interact(state, grid, 2,1);
-        toggleCellInteraction.interact(state, grid, 2,2);
-        toggleCellInteraction.interact(state, grid, 2,3);
-
-        CellStateCalculationService cellStateCalculationService = new CellStateCalculationService();
-        System.out.println(displayService.displayGridState(grid));
-
-        Grid<GOLCell> nextGridState = gridService.calculateNextGridState(grid, cellStateCalculationService);
-        System.out.println(displayService.displayGridState(nextGridState));
-
-
-*/
 
 
         ConsoleOutputService outputService = new ConsoleOutputService();
         ConsoleInputSource inputSource = new ConsoleInputSource(new Scanner(System.in));
 
         CancellableCoordinateInput cancellableCoordinateInput = new CancellableCoordinateInput(outputService, inputSource, new CoordinateConverter(), new CoordinateValidator());
-        //Optional<Coordinate> coordinate1 = cancellableCoordinateInput.getInput("Test, cancel by entering q", new CoordinateValidationCriteria(1, 3, 1, 3));
-        //System.out.println(coordinate1);
+
         IntegerInput integerInput = new IntegerInput(outputService, inputSource);
-        //int result = integerInput.getInput("Test", new RangeValidationCriteria(0, 5));
-        //System.out.println(result);
 
-
-        //CoordinateInput coordinateInput = new CoordinateInput(outputService, inputSource);
-        // Coordinate coordinate = coordinateInput.getInput("Coordinates:", new CoordinateValidationCriteria(0, 5, 0, 5));
-        //System.out.println(coordinate);
 
         SelectInput selectInput = new SelectInputImpl(outputService, new NumberSelectionInput(outputService, inputSource));
         CancellableSelectInput gameSelect = new CancellableSelectInputImpl(outputService, new CancellableIntegerSelectionInput(outputService, inputSource, new IntegerInputConverter(), new ContainedInCollectionValidator()));
@@ -105,7 +78,7 @@ public class Main {
         games.put(1, minesweeper);
         games.put(2, gameOfLife);
 
-        GameboxRunner gameboxRunner = new GameboxRunner(outputService, inputSource, games, gameSelect);
+        GameboxRunner gameboxRunner = new GameboxRunner(outputService, games, gameSelect);
 
         gameboxRunner.runGamebox();
 
