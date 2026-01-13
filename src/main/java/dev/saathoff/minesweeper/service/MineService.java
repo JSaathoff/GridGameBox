@@ -1,8 +1,8 @@
 package dev.saathoff.minesweeper.service;
 
-import dev.saathoff.grid.data.Grid;
-import dev.saathoff.minesweeper.bean.MSCell;
 import dev.saathoff.grid.data.Coordinate;
+import dev.saathoff.grid.data.Grid;
+import dev.saathoff.minesweeper.data.MSCell;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,7 +16,7 @@ public class MineService {
         return this.placeMines(grid, mineCount, clickedRow, clickedColumn, new Random());
     }
 
-    public Grid<MSCell> placeMines(Grid<MSCell> grid, int mineCount, int clickedRow, int clickedColumn, RandomGenerator random){
+    public Grid<MSCell> placeMines(Grid<MSCell> grid, int mineCount, int clickedRow, int clickedColumn, RandomGenerator random) {
         int rows = grid.getRowCount();
         int cols = grid.getColumnCount();
 
@@ -39,10 +39,10 @@ public class MineService {
 
     private List<Coordinate> getAvailableMineSpots(int rows, int cols, int clickedRow, int clickedColumn) {
         List<Coordinate> availableMineSpots = new ArrayList<>();
-        for(int row = 0; row < rows; row++){
-            for(int col = 0; col < cols; col++){
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
                 boolean isSafeZone = Math.abs(row - clickedRow) <= 1 && Math.abs(col - clickedColumn) <= 1;
-                if(!isSafeZone){
+                if (!isSafeZone) {
                     availableMineSpots.add(new Coordinate(row, col));
                 }
             }

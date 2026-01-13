@@ -1,6 +1,6 @@
 package dev.saathoff.gameoflife.data;
 
-import dev.saathoff.game.data.Cell;
+import dev.saathoff.grid.data.Cell;
 
 public class GOLCell implements Cell {
 

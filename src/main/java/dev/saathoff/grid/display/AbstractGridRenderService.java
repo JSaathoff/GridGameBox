@@ -1,6 +1,6 @@
 package dev.saathoff.grid.display;
 
-import dev.saathoff.game.data.Cell;
+import dev.saathoff.grid.data.Cell;
 import dev.saathoff.grid.data.Grid;
 
 public abstract class AbstractGridRenderService<T extends Cell> implements GridRenderService<T> {

@@ -3,7 +3,7 @@ package dev.saathoff.service.minesweeper;
 import dev.saathoff.grid.data.Coordinate;
 import dev.saathoff.grid.data.Grid;
 import dev.saathoff.grid.service.DetermineNeighborsService;
-import dev.saathoff.minesweeper.bean.MSCell;
+import dev.saathoff.minesweeper.data.MSCell;
 import dev.saathoff.minesweeper.service.MSGridInitService;
 import dev.saathoff.minesweeper.service.MineCountCalculator;
 import org.junit.jupiter.api.Test;

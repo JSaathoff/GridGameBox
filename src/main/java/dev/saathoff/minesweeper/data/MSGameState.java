@@ -1,6 +1,6 @@
-package dev.saathoff.minesweeper.bean;
+package dev.saathoff.minesweeper.data;
 
-import dev.saathoff.game.data.GameState;
+import dev.saathoff.grid.data.GameState;
 
 public class MSGameState implements GameState {
 

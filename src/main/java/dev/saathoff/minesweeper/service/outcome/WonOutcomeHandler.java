@@ -3,8 +3,8 @@ package dev.saathoff.minesweeper.service.outcome;
 import dev.saathoff.grid.data.Grid;
 import dev.saathoff.grid.display.GridRenderService;
 import dev.saathoff.io.output.OutputService;
-import dev.saathoff.minesweeper.bean.MSCell;
-import dev.saathoff.minesweeper.bean.MSGameState;
+import dev.saathoff.minesweeper.data.MSCell;
+import dev.saathoff.minesweeper.data.MSGameState;
 
 public class WonOutcomeHandler implements OutcomeHandler {
     private GridRenderService<MSCell> displayService;

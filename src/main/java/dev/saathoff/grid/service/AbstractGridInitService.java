@@ -1,7 +1,7 @@
 package dev.saathoff.grid.service;
 
-import dev.saathoff.game.data.Cell;
 import dev.saathoff.grid.data.ArrayGrid;
+import dev.saathoff.grid.data.Cell;
 import dev.saathoff.grid.data.Grid;
 
 public abstract class AbstractGridInitService<T extends Cell> {

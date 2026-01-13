@@ -1,6 +1,6 @@
 package dev.saathoff.gameoflife.gameloop;
 
-import dev.saathoff.game.RunnableGame;
+import dev.saathoff.gamebox.RunnableGame;
 import dev.saathoff.gameoflife.data.GOLCell;
 import dev.saathoff.gameoflife.display.GOLRenderService;
 import dev.saathoff.gameoflife.service.CellStateCalculationService;

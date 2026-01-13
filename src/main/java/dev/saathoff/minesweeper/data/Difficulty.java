@@ -1,9 +1,9 @@
-package dev.saathoff.minesweeper.bean;
+package dev.saathoff.minesweeper.data;
 
 import dev.saathoff.io.input.select.Selectable;
 
 public enum Difficulty implements Selectable {
-    FREE(1, 8,8),
+    FREE(1, 8, 8),
     EASY(10, 8, 8),
     MEDIUM(40, 16, 16),
     HARD(99, 16, 30);
@@ -18,9 +18,17 @@ public enum Difficulty implements Selectable {
         this.columnCount = columnCount;
     }
 
-    public int getMineCount() { return mineCount; }
-    public int getRowCount() { return rowCount; }
-    public int getColumnCount() { return columnCount; }
+    public int getMineCount() {
+        return mineCount;
+    }
+
+    public int getRowCount() {
+        return rowCount;
+    }
+
+    public int getColumnCount() {
+        return columnCount;
+    }
 
     @Override
     public String getLabelForSelection() {

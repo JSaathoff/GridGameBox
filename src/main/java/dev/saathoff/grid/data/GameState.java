@@ -1,4 +1,4 @@
-package dev.saathoff.game.data;
+package dev.saathoff.grid.data;
 
 public interface GameState {
 }

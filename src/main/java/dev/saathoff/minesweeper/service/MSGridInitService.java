@@ -1,7 +1,7 @@
 package dev.saathoff.minesweeper.service;
 
 import dev.saathoff.grid.service.AbstractGridInitService;
-import dev.saathoff.minesweeper.bean.MSCell;
+import dev.saathoff.minesweeper.data.MSCell;
 
 public class MSGridInitService extends AbstractGridInitService<MSCell> {
 

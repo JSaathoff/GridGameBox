@@ -1,4 +1,4 @@
-package dev.saathoff.minesweeper.bean;
+package dev.saathoff.minesweeper.data;
 
 import dev.saathoff.io.output.ConsoleOutputService;
 import dev.saathoff.minesweeper.display.MSRenderService;

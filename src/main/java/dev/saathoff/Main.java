@@ -1,8 +1,7 @@
 package dev.saathoff;
 
-import dev.saathoff.game.GameboxRunner;
-import dev.saathoff.game.RunnableGame;
-import dev.saathoff.game.interaction.CellInteraction;
+import dev.saathoff.gamebox.GameboxRunner;
+import dev.saathoff.gamebox.RunnableGame;
 import dev.saathoff.gameoflife.display.GOLRenderService;
 import dev.saathoff.gameoflife.gameloop.GameOfLifeRunner;
 import dev.saathoff.gameoflife.service.CellStateCalculationService;
@@ -23,12 +22,13 @@ import dev.saathoff.io.input.select.SelectInputImpl;
 import dev.saathoff.io.input.validator.impl.ContainedInCollectionValidator;
 import dev.saathoff.io.input.validator.impl.CoordinateValidator;
 import dev.saathoff.io.output.ConsoleOutputService;
-import dev.saathoff.minesweeper.bean.MSCell;
-import dev.saathoff.minesweeper.bean.MSGameState;
+import dev.saathoff.minesweeper.data.MSCell;
+import dev.saathoff.minesweeper.data.MSGameState;
 import dev.saathoff.minesweeper.display.MSRenderService;
 import dev.saathoff.minesweeper.gameloop.MinesweeperRunner;
-import dev.saathoff.minesweeper.interaction.RevealInteraction;
-import dev.saathoff.minesweeper.interaction.ToggleFlagInteraction;
+import dev.saathoff.minesweeper.interaction.CellInteraction;
+import dev.saathoff.minesweeper.interaction.impl.RevealInteraction;
+import dev.saathoff.minesweeper.interaction.impl.ToggleFlagInteraction;
 import dev.saathoff.minesweeper.service.MSGridInitService;
 import dev.saathoff.minesweeper.service.MineCountCalculator;
 import dev.saathoff.minesweeper.service.MineService;
@@ -41,23 +41,43 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-
+        // General configuration
         ConsoleOutputService outputService = new ConsoleOutputService();
         ConsoleInputSource inputSource = new ConsoleInputSource(new Scanner(System.in));
+        DetermineNeighborsService determineNeighborsService = new DetermineNeighborsService();
 
+        GameOfLifeRunner gameOfLife = configureGameOfLifeRunner(outputService, inputSource, determineNeighborsService);
+
+        MinesweeperRunner minesweeper = configureMinesweeperRunner(outputService, inputSource, determineNeighborsService);
+
+        GameboxRunner gameboxRunner = configureGameboxRunner(outputService, minesweeper, gameOfLife, inputSource);
+
+        gameboxRunner.runGamebox();
+
+    }
+
+    private static GameboxRunner configureGameboxRunner(ConsoleOutputService outputService, MinesweeperRunner minesweeper, GameOfLifeRunner gameOfLife, ConsoleInputSource inputSource) {
+        CancellableSelectInput gameSelect = new CancellableSelectInputImpl(outputService, new CancellableIntegerSelectionInput(outputService, inputSource, new IntegerInputConverter(), new ContainedInCollectionValidator()));
+        Map<Integer, RunnableGame> games = new HashMap<>();
+        games.put(1, minesweeper);
+        games.put(2, gameOfLife);
+        GameboxRunner gameboxRunner = new GameboxRunner(outputService, games, gameSelect);
+        return gameboxRunner;
+    }
+
+    private static GameOfLifeRunner configureGameOfLifeRunner(ConsoleOutputService outputService, ConsoleInputSource inputSource, DetermineNeighborsService determineNeighborsService) {
         CancellableCoordinateInput cancellableCoordinateInput = new CancellableCoordinateInput(outputService, inputSource, new CoordinateConverter(), new CoordinateValidator());
 
         IntegerInput integerInput = new IntegerInput(outputService, inputSource);
-
-
-        SelectInput selectInput = new SelectInputImpl(outputService, new NumberSelectionInput(outputService, inputSource));
-        CancellableSelectInput gameSelect = new CancellableSelectInputImpl(outputService, new CancellableIntegerSelectionInput(outputService, inputSource, new IntegerInputConverter(), new ContainedInCollectionValidator()));
-
-        DetermineNeighborsService determineNeighborsService = new DetermineNeighborsService();
         GOLGridInitService gridService = new GOLGridInitService();
         CellStateCalculationService cellStateCalculationService = new CellStateCalculationService(determineNeighborsService, gridService);
-        GameOfLifeRunner gameOfLife = new GameOfLifeRunner(integerInput, outputService, gridService, cancellableCoordinateInput, new GOLRenderService(), cellStateCalculationService);
 
+        GameOfLifeRunner gameOfLife = new GameOfLifeRunner(integerInput, outputService, gridService, cancellableCoordinateInput, new GOLRenderService(), cellStateCalculationService);
+        return gameOfLife;
+    }
+
+    private static MinesweeperRunner configureMinesweeperRunner(ConsoleOutputService outputService, ConsoleInputSource inputSource, DetermineNeighborsService determineNeighborsService) {
+        SelectInput selectInput = new SelectInputImpl(outputService, new NumberSelectionInput(outputService, inputSource));
         RevealInteraction revealInteraction = new RevealInteraction(new RevealCellService(new DetermineNeighborsService()));
         Map<Integer, CellInteraction<MSCell, MSGameState>> interactions = new HashMap<>();
         interactions.put(1, new RevealInteraction(new RevealCellService(determineNeighborsService)));
@@ -73,14 +93,6 @@ public class Main {
                 new MSRenderService(),
                 outputService
         );
-
-        Map<Integer, RunnableGame> games = new HashMap<>();
-        games.put(1, minesweeper);
-        games.put(2, gameOfLife);
-
-        GameboxRunner gameboxRunner = new GameboxRunner(outputService, games, gameSelect);
-
-        gameboxRunner.runGamebox();
-
+        return minesweeper;
     }
 }

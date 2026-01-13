@@ -1,12 +1,12 @@
-package dev.saathoff.minesweeper.interaction;
+package dev.saathoff.minesweeper.interaction.impl;
 
-import dev.saathoff.game.data.exception.IllegalMoveException;
-import dev.saathoff.game.interaction.CellInteraction;
 import dev.saathoff.grid.data.Grid;
 import dev.saathoff.io.input.select.Selectable;
-import dev.saathoff.minesweeper.bean.MSCell;
-import dev.saathoff.minesweeper.bean.MSGameState;
-import dev.saathoff.minesweeper.bean.Outcome;
+import dev.saathoff.minesweeper.data.MSCell;
+import dev.saathoff.minesweeper.data.MSGameState;
+import dev.saathoff.minesweeper.data.Outcome;
+import dev.saathoff.minesweeper.data.exception.IllegalMoveException;
+import dev.saathoff.minesweeper.interaction.CellInteraction;
 import dev.saathoff.minesweeper.service.RevealCellService;
 
 public class RevealInteraction implements CellInteraction<MSCell, MSGameState>, Selectable {

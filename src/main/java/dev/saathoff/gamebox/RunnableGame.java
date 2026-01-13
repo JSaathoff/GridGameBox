@@ -1,4 +1,4 @@
-package dev.saathoff.game;
+package dev.saathoff.gamebox;
 
 import dev.saathoff.io.input.select.Selectable;
 

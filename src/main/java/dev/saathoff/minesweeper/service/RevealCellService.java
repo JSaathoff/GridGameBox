@@ -3,8 +3,8 @@ package dev.saathoff.minesweeper.service;
 import dev.saathoff.grid.data.Coordinate;
 import dev.saathoff.grid.data.Grid;
 import dev.saathoff.grid.service.DetermineNeighborsService;
-import dev.saathoff.minesweeper.bean.MSCell;
-import dev.saathoff.minesweeper.bean.MSGameState;
+import dev.saathoff.minesweeper.data.MSCell;
+import dev.saathoff.minesweeper.data.MSGameState;
 
 import java.util.List;
 import java.util.stream.Stream;

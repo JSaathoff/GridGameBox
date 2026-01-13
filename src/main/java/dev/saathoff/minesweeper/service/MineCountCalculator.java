@@ -1,9 +1,9 @@
 package dev.saathoff.minesweeper.service;
 
-import dev.saathoff.grid.data.Grid;
-import dev.saathoff.minesweeper.bean.MSCell;
 import dev.saathoff.grid.data.Coordinate;
+import dev.saathoff.grid.data.Grid;
 import dev.saathoff.grid.service.DetermineNeighborsService;
+import dev.saathoff.minesweeper.data.MSCell;
 
 import java.util.List;
 
@@ -15,9 +15,9 @@ public class MineCountCalculator {
         this.neighborsService = neighborsService;
     }
 
-    public Grid<MSCell> setMineCountsForGrid(Grid<MSCell> grid){
-        for(int row = 0; row < grid.getRowCount(); row++)      {
-            for(int col = 0; col < grid.getColumnCount(); col++){
+    public Grid<MSCell> setMineCountsForGrid(Grid<MSCell> grid) {
+        for (int row = 0; row < grid.getRowCount(); row++) {
+            for (int col = 0; col < grid.getColumnCount(); col++) {
                 setMineCountForCell(grid, row, col);
             }
         }

@@ -1,7 +1,7 @@
 package dev.saathoff.minesweeper.display;
 
 import dev.saathoff.grid.display.AbstractGridRenderService;
-import dev.saathoff.minesweeper.bean.MSCell;
+import dev.saathoff.minesweeper.data.MSCell;
 
 public class MSRenderService extends AbstractGridRenderService<MSCell> {
 

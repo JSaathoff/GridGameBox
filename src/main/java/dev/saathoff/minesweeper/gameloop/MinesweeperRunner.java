@@ -1,8 +1,6 @@
 package dev.saathoff.minesweeper.gameloop;
 
-import dev.saathoff.game.RunnableGame;
-import dev.saathoff.game.data.exception.IllegalMoveException;
-import dev.saathoff.game.interaction.CellInteraction;
+import dev.saathoff.gamebox.RunnableGame;
 import dev.saathoff.grid.data.Coordinate;
 import dev.saathoff.grid.data.Grid;
 import dev.saathoff.grid.display.GridRenderService;
@@ -10,11 +8,13 @@ import dev.saathoff.io.input.impl.CoordinateInput;
 import dev.saathoff.io.input.select.SelectInput;
 import dev.saathoff.io.input.validator.criteria.CoordinateValidationCriteria;
 import dev.saathoff.io.output.OutputService;
-import dev.saathoff.minesweeper.bean.Difficulty;
-import dev.saathoff.minesweeper.bean.MSCell;
-import dev.saathoff.minesweeper.bean.MSGameState;
-import dev.saathoff.minesweeper.bean.Outcome;
-import dev.saathoff.minesweeper.interaction.RevealInteraction;
+import dev.saathoff.minesweeper.data.Difficulty;
+import dev.saathoff.minesweeper.data.MSCell;
+import dev.saathoff.minesweeper.data.MSGameState;
+import dev.saathoff.minesweeper.data.Outcome;
+import dev.saathoff.minesweeper.data.exception.IllegalMoveException;
+import dev.saathoff.minesweeper.interaction.CellInteraction;
+import dev.saathoff.minesweeper.interaction.impl.RevealInteraction;
 import dev.saathoff.minesweeper.service.MSGridInitService;
 import dev.saathoff.minesweeper.service.MineCountCalculator;
 import dev.saathoff.minesweeper.service.MineService;

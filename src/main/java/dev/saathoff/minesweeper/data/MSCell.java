@@ -1,6 +1,6 @@
-package dev.saathoff.minesweeper.bean;
+package dev.saathoff.minesweeper.data;
 
-import dev.saathoff.game.data.Cell;
+import dev.saathoff.grid.data.Cell;
 
 public class MSCell implements Cell {
     private boolean isMine;
